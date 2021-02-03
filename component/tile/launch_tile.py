@@ -24,6 +24,7 @@ class LaunchTile(sw.Tile):
         super().__init__(
             'compute_widget',
             cm.tile.launch,
+            inputs = [mkd],
             btn = btn,
             output = self.output
         )

@@ -12,7 +12,7 @@ class ResultTile(sw.Tile):
         
         # create the tile 
         super().__init__(
-            'result_widget',
+            'result_tile',
             cm.tile.result,
             inputs = [self.m]
         )

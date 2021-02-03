@@ -1,10 +1,12 @@
 {
     "app": {
-        "title": "fcdm",
+        "title": "Forest Canopy Disturbance Monitoring (FCDM Tool)",
         "footer": "The sky is the limit \u00a9 {}",
         "drawer_item": {
             "aoi": "AOI selection",
-            "about": "About"
+            "about": "About",
+            "fcdm": "FCDM",
+            "result": "Results"
         }
     },
     "index": {
