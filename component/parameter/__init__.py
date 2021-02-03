@@ -3,3 +3,5 @@
 # this should be the only place you hard-code parameters
 
 # if you use a module import all the functions here to only have 1 call to make
+from .sensors import *
+from .ui_input import *

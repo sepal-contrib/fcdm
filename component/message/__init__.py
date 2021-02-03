@@ -16,4 +16,4 @@ if 'CUSTOM_LANGUAGE' in os.environ:
 # the base language is english and every untranslated messages will be fallback to the english key 
 # complete the json file the add keys in the app 
 # avoid hard written messages at all cost
-ms = Translator(Path(__file__).parent, lang)
+cm = Translator(Path(__file__).parent, lang)

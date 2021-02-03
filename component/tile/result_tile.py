@@ -1,0 +1,18 @@
+from sepal_ui import sepalwidgets as sw 
+from sepal_ui import mapping as sm
+
+from component.message import cm
+
+class ResultTile(sw.Tile):
+    
+    def __init__(self):
+        
+        # create the map 
+        self.m = sm.SepalMap()
+        
+        # create the tile 
+        super().__init__(
+            'result_widget',
+            cm.tile.result,
+            inputs = [self.m]
+        )
