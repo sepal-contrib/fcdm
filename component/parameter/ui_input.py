@@ -1,19 +1,19 @@
 from component.message import cm
 
 index = [
-    cm.index.nbr,
-    cm.index.ndii,
-    cm.index.ndvi,
-    cm.index.ndvi_atmo,
-    cm.index.ndwi,
-    cm.index.ndgi,
-    cm.index.ri
+    {'text': cm.index.nbr,      'value': 'nbr'},
+    {'text': cm.index.ndii,      'value': 'ndii'},
+    {'text': cm.index.ndvi,      'value': 'ndvi'},
+    {'text': cm.index.ndvi_atmo, 'value': 'ndvi_atmo'}, 
+    {'text': cm.index.ndwi,      'value': 'ndwi'},
+    {'text': cm.index.ndgi,      'value': 'ndgi'},
+    {'text': cm.index.ri,        'value': 'ri'}
 ]
 
 forest_map = [
-    cm.forest_map.no_map,
-    cm.forest_map.roadless,
-    cm.forest_map.gfc
+    {'text': cm.forest_map.no_map,   'value': 'no_map'}, 
+    {'text': cm.forest_map.roadless, 'value': 'roadless'}, 
+    {'text': cm.forest_map.gfc,      'value': 'gfc'}
 ]
 
 forest_map_max_year = 2018
