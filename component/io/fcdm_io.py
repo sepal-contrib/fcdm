@@ -25,3 +25,6 @@ class FcdmIo():
         self.filter_threshod = None
         self.filter_radius = None
         self.cleaning_offset = None
+        
+        # output maps 
+        forest_mask = None
