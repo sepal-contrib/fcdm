@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class FcdmIo():
     
     def __init__(self):
@@ -9,10 +11,10 @@ class FcdmIo():
         
         # sensors 
         self.index = None
-        self.sensor = None
+        self.sensors = None
         self.cloud_buffer = None
-        self.landsat_7_threshold = None
-        self.landsat_7_is_threshold = None
+        self.improve_L7 = None
+        self.improve_threshold = None
         
         # time 
         self.analysis_start = None
@@ -27,4 +29,26 @@ class FcdmIo():
         self.cleaning_offset = None
         
         # output maps 
-        forest_mask = None
+        self.forest_mask = None
+    
+    def _get_yearday(self, attr):
+        """transform the date into a yeardate format from EE script (YYYYmmdd)"""
+        date_str = getattr(self, attr)
+        date = datetime.strptime(date_str, '%Y-%m-%d')
+        
+        return date.year * 10000 + date.month * 100 + date.day
+    
+    # they are kinda kriptic but that was too long to write otherwise 
+    # it's only called for display min and max ... 
+    def yearday_a_s(self):
+        return self._get_yearday('analysis_start')
+    
+    def yearday_a_e(self):
+        return self._get_yearday('analysis_end')
+    
+    def yearday_r_s(self):
+        return self._get_yearday('reference_start')
+    
+    def yearday_r_e(self):
+        return self._get_yearday('reference_end')
+        

@@ -62,7 +62,7 @@ sensors = {
             'blue' : 'B2',
             'green': 'B3',
             'red': 'B4',
-            'nir': 'B8',
+            'nir': 'B5',
             'swir1': 'B6',
             'swir2': 'B7',
             'pixel_qa': 'pixel_qa',

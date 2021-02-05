@@ -22,8 +22,8 @@ class SensorTile(sw.Tile):
         output = sw.Alert() \
             .bind(index_select, io, 'index') \
             .bind(sensors_select, io, 'sensor') \
-            .bind(landsat_7_switch, io, 'landsat_7_is_threshold') \
-            .bind(landsat_7_slider, io, 'landsat_7_threshold') \
+            .bind(landsat_7_switch, io, 'imrove_L7') \
+            .bind(landsat_7_slider, io, 'improve_threshold') \
             .bind(cloud_buffer, io, 'cloud_buffer')
         
         super().__init__(
