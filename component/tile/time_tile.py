@@ -20,10 +20,10 @@ class TimeTile(sw.Tile):
         
         #create the output 
         output = sw.Alert() \
-            .bind(baseline_start_picker, io, 'reference_start') \
-            .bind(baseline_end_picker, io, 'reference_end') \
-            .bind(analysis_start_picker, io, 'analysis_start') \
-            .bind(baseline_start_picker, io, 'analysis_end')
+            .bind(baseline_start_picker, io, 'reference_start', verbose=False) \
+            .bind(baseline_end_picker, io, 'reference_end', verbose=False) \
+            .bind(analysis_start_picker, io, 'analysis_start', verbose=False) \
+            .bind(baseline_start_picker, io, 'analysis_end', verbose=False)
         
         super().__init__(
             'nested_widget',

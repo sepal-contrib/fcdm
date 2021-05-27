@@ -1,19 +1,19 @@
 from component.message import cm
 
 index = [
-    {'text': cm.index.nbr,      'value': 'nbr'},
-    {'text': cm.index.ndii,      'value': 'ndii'},
-    {'text': cm.index.ndvi,      'value': 'ndvi'},
-    {'text': cm.index.ndvi_atmo, 'value': 'ndvi_atmo'}, 
-    {'text': cm.index.ndwi,      'value': 'ndwi'},
-    {'text': cm.index.ndgi,      'value': 'ndgi'},
-    {'text': cm.index.ri,        'value': 'ri'}
+    {'text': cm.index.nbr,       'value': 'nbr'},
+    {'text': cm.index.ndii,      'disabled': True, 'value': 'ndii'},
+    {'text': cm.index.ndvi,      'disabled': True, 'value': 'ndvi'},
+    {'text': cm.index.ndvi_atmo, 'disabled': True, 'value': 'ndvi_atmo'}, 
+    {'text': cm.index.ndwi,      'disabled': True, 'value': 'ndwi'},
+    {'text': cm.index.ndgi,      'disabled': True, 'value': 'ndgi'},
+    {'text': cm.index.ri,        'disabled': True, 'value': 'ri'}
 ]
 
 forest_map = [
+    {'text': cm.forest_map.gfc,      'value': 'gfc'},
     {'text': cm.forest_map.no_map,   'value': 'no_map'}, 
-    {'text': cm.forest_map.roadless, 'value': 'roadless'}, 
-    {'text': cm.forest_map.gfc,      'value': 'gfc'}
+    {'text': cm.forest_map.roadless, 'value': 'roadless', 'disabled': True}
 ]
 
 forest_map_max_year = 2018

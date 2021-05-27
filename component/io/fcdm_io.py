@@ -1,20 +1,22 @@
 from datetime import datetime
 
+from component import parameter as cp
+
 class FcdmIo():
     
     def __init__(self):
         
         # basemap 
-        self.forest_map = None
+        self.forest_map = cp.forest_map[0]['value']
         self.forest_map_year = None
-        self.treecover = None
+        self.treecover = 70
         
         # sensors 
-        self.index = None
-        self.sensors = None
-        self.cloud_buffer = None
-        self.improve_L7 = None
-        self.improve_threshold = None
+        self.index = cp.index[0]['value']
+        self.sensors = ['landsat 8']
+        self.cloud_buffer = 500
+        self.improve_L7 = False
+        self.improve_threshold = .08
         
         # time 
         self.analysis_start = None
@@ -23,10 +25,10 @@ class FcdmIo():
         self.reference_end = None
         
         # fcdm 
-        self.kernel_radius = None
-        self.filter_threshod = None
-        self.filter_radius = None
-        self.cleaning_offset = None
+        self.kernel_radius = 150
+        self.filter_threshod = .035
+        self.filter_radius = 80
+        self.cleaning_offset = 3
         
         # output maps 
         self.forest_mask = None

@@ -22,7 +22,7 @@ viz_forest_mask = {
     },
     'gfc': {
         'min':0,
-        'max':100,
+        'max':1,
         'palette': [
             '#ffffcc',
             '#006600'
