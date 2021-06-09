@@ -9,6 +9,7 @@ class ResultTile(sw.Tile):
         
         # create the map 
         self.m = sm.SepalMap()
+        self.m.max_zoom = 12
         
         # create the tile 
         super().__init__(
