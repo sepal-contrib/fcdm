@@ -11,14 +11,14 @@ from component.message import cm
         
 class QuestionnaireTile (sw.Tile):
     
-    def __init__(self, aoi_io, io, result_tile):
+    def __init__(self, aoi_model, model, result_tile):
 
         # build the tiles
-        time_tile = TimeTile(io),
-        sensor_tile  = SensorTile(io),
-        basemap_tile = BasemapTile(io),
-        input_tile = FcdmTile(io)
-        launch_tile = LaunchTile(aoi_io, io, result_tile)
+        time_tile = TimeTile(model),
+        sensor_tile  = SensorTile(model),
+        basemap_tile = BasemapTile(model),
+        input_tile = FcdmTile(model)
+        launch_tile = LaunchTile(aoi_model, model, result_tile.m)
         
         tiles = [
             time_tile,

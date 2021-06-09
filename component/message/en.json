@@ -10,13 +10,8 @@
         }
     },
     "index": {
-        "nbr": "NBR (optimal for evergreen forest)",
-        "ndii": "NDII (SWIR 1)",
-        "ndvi": "NDVI",
-        "ndvi_atmo": "NDVI (atmosphere)",
-        "ndwi": "NDWI (green)",
-        "ndgi": "NDGI (Greeness)",
-        "ri": "RI (redness)"
+        "nbr": "Single (analysis) period assessment (NBR)",
+        "change": "Change detection (Delta-rNBR)"
     },
     "forest_map": {
         "no_map": "No forest map",
@@ -53,5 +48,6 @@
         "result": "Result maps"
     },
     "process_txt": "Some explainantion text should go here",
-    "launch_btn": "Run FCDM computation"
+    "launch_btn": "Run FCDM computation",
+    "missing_input": "One of the input is missing"
 }

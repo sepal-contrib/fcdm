@@ -1,13 +1,8 @@
 from component.message import cm
 
 index = [
-    {'text': cm.index.nbr,       'value': 'nbr'},
-    {'text': cm.index.ndii,      'disabled': True, 'value': 'ndii'},
-    {'text': cm.index.ndvi,      'disabled': True, 'value': 'ndvi'},
-    {'text': cm.index.ndvi_atmo, 'disabled': True, 'value': 'ndvi_atmo'}, 
-    {'text': cm.index.ndwi,      'disabled': True, 'value': 'ndwi'},
-    {'text': cm.index.ndgi,      'disabled': True, 'value': 'ndgi'},
-    {'text': cm.index.ri,        'disabled': True, 'value': 'ri'}
+    {'text': cm.index.nbr,    'value': 'nbr'},
+    {'text': cm.index.change, 'value': 'change'}
 ]
 
 forest_map = [

@@ -1,45 +1,139 @@
+import time 
+from functools import partial
+
 from sepal_ui import sepalwidgets as sw
+from sepal_ui import color as sc
+from sepal_ui.scripts import utils as su
+import ipyvuetify as v
+import ee
 
 from component.message import cm
+from component import scripts as cs
+from component import parameter as cp
+
+ee.Initialize()
 
 class LaunchTile(sw.Tile):
     
-    def __init__(self, aoi_io, io, result_tile):
+    def __init__(self, aoi_model, model, map_):
         
-        # gather the io objects 
-        self.aoi_io = aoi_io 
-        self.io = io 
+        # gather the model objects 
+        self.aoi_model = aoi_model 
+        self.model = model 
         
-        # add the result_tile to attributes 
-        self.result_tile = result_tile
+        # add the result_tile map to attributes 
+        self.m = map_
         
         # create the widgets 
         mkd = sw.Markdown(cm.process_txt)
-        btn = sw.Btn(cm.launch_btn, class_='mt-5')
-        
-        # create an output 
-        self.output = sw.Alert()
         
         # create the tile 
         super().__init__(
             'compute_widget',
             cm.tile.launch,
             inputs = [mkd],
-            btn = btn,
-            output = self.output
+            btn = sw.Btn(cm.launch_btn, class_='mt-5'),
+            alert = sw.Alert()
         )
         
         # link the js behaviours
-        btn.on_event('click', self._launch_fcdm)
+        self.btn.on_event('click', self._launch_fcdm)
+    
+    @su.loading_button(debug=True)
+    def _launch_fcdm(self, widget, event, data):
         
-    def _launch_fcdm(self):
+        # test all the values
+        if not self.alert.check_input(self.aoi_model.name, cm.missing_input): return
+        for k, val in self.model.export_data().items():
+            if not ('forest_mask' in k or self.alert.check_input(val, cm.missing_input)): return
         
-        widget.toggle_loading()
+        # display the aoi 
+        self.m.addLayer(self.aoi_model.feature_collection, {'color': sc.info}, 'aoi')
+        self.m.zoom_ee_object(self.aoi_model.feature_collection.geometry())
         
-        self.output.add_livel_msg('I will do nothing', 'warning')
+        # display the forest mask 
+        self.model.forest_mask, self.model.forest_mask_display = cs.get_forest_mask(
+            self.model.forest_map, 
+            self.model.forest_map_year, 
+            self.model.treecover, 
+            self.aoi_model.feature_collection
+        )
+        self.m.addLayer(
+            self.model.forest_mask_display, 
+            cp.viz_forest_mask[self.model.forest_map], 
+            'Forest mask'
+        )
+        
+        # compute nbr 
+        analysis_nrb_merge = ee.ImageCollection([])
+        reference_nbr_merge = ee.ImageCollection([])
+        for sensor in self.model.sensors:
+    
+            # analysis period
+            # data preparation
+            # Calculation of single scenes of Base-NBR
+            analysis = cs.get_collection(
+                sensor, 
+                self.model.analysis_start, 
+                self.model.analysis_end, 
+                self.model.forest_map, 
+                self.model.forest_map_year, 
+                self.model.forest_mask, 
+                self.model.cloud_buffer,
+                self.aoi_model.feature_collection
+            )
+            analysis_nbr = analysis.map(partial(cs.compute_nbr, sensor=sensor))
 
-        time.sleep(4)
+            # analysis period
+            # data preparation
+            # Calculation of single scenes of Base-NBR
+            reference = cs.get_collection(
+                sensor, 
+                self.model.reference_start, 
+                self.model.reference_end, 
+                self.model.forest_map, 
+                self.model.forest_map_year, 
+                self.model.forest_mask, 
+                self.model.cloud_buffer,
+                self.aoi_model.feature_collection
+            )
+            reference_nbr = analysis.map(partial(cs.compute_nbr, sensor=sensor))
+
+            if self.model.index == 'change':
+                reference_nbr = reference_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius))
+                analysis_nbr = analysis_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius)) 
+
+            analysis_nrb_merge = analysis_nrb_merge.merge(analysis_nbr)
+            reference_nbr_merge = reference_nbr_merge.merge(reference_nbr)
+    
+        # Capping of self-referenced single Second-NBR scenes at 0 and -1
+        # Condensation of all available self-referenced single Second-NBR scenes per investigation period
+        analysis_nbr_norm_min = analysis_nrb_merge \
+            .map(cs.capping) \
+            .qualityMosaic('NBR')
+
+        reference_nbr_norm_min = reference_nbr_merge \
+            .map(cs.capping) \
+            .qualityMosaic('NBR')
+
+        if self.model.index == 'change':
+
+            # Derive the Delta-NBR result
+            nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
+            nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
+
+        # Display of condensed Base-NBR scene and information about the acquisition dates of the base satellite data per single pixel location
+        self.m.addLayer(reference_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Reference')
+        self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
+
+        if self.model.index == 'change':
+            # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
+            self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
+            self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
+            self.m.addLayer (NBR_difference_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
+
+        self.alert.add_live_msg('I finished displaying maps', 'success')
         
-        self.output('I finish doing nothing', 'success')
+        return
         
         

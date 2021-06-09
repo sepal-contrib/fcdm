@@ -1,8 +1,8 @@
 sensors = {
     'landsat 4': {
         'dataset': {
-            'toa':'LANDSAT/LC04/C01/T1_TOA',
-            'sr': 'LANDSAT/LC04/C01/T1_SR'
+            'toa':'LANDSAT/LT04/C01/T1_TOA',
+            'sr': 'LANDSAT/LT04/C01/T1_SR'
         },
         'bands': {
             'blue' : 'B1',
@@ -19,8 +19,8 @@ sensors = {
     },
     'landsat 5': {
         'dataset': {
-            'toa':'LANDSAT/LC05/C01/T1_TOA',
-            'sr': 'LANDSAT/LC05/C01/T1_SR'
+            'toa':'LANDSAT/LT05/C01/T1_TOA',
+            'sr': 'LANDSAT/LT05/C01/T1_SR'
         },
         'bands': {
             'blue' : 'B1',
@@ -37,8 +37,8 @@ sensors = {
     },
     'landsat 7': {
         'dataset': {
-            'toa':'LANDSAT/LC07/C01/T1_TOA',
-            'sr': 'LANDSAT/LC07/C01/T1_SR'
+            'toa':'LANDSAT/LE07/C01/T1_TOA',
+            'sr': 'LANDSAT/LE07/C01/T1_SR'
         },
         'bands': {
             'blue' : 'B1',
