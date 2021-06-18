@@ -405,8 +405,8 @@ def capping_fires(image):
 def get_forest_mask(forest_map, year, treecover, aoi):
     """return the forest mask corresponding to the forest_map input"""
     
-    hansen = ee.Image(cp.hansen_gfc).clip(aoi).unmask(0)
-    loss_year = hansen.select('lossyear')
+    hansen = ee.Image(cp.hansen_gfc).clip(aoi)
+    
     
     if forest_map == 'no_map':
         forest_mask = hansen.select('treecover2000').gte(0)
@@ -417,12 +417,13 @@ def get_forest_mask(forest_map, year, treecover, aoi):
         forest_mask_display = forest_mask.updateMask(forest_mask).select(f'Jan{year+1}')
         
     elif forest_map == 'gfc':
-        basemap2000 = hansen.select('treecover2000').gte(treecover) 
+        basemap2000 = hansen.unmask(0).select('treecover2000').gte(treecover) 
+        loss_year = hansen.unmask(0).select('lossyear')
         change = loss_year.lte(year-2000) \
             .And(loss_year.gt(0)) \
             .bitwise_not()
         forest_mask = basemap2000.multiply(change)
-        forest_mask_display = forest_mask.updateMask(forest_mask)#.select(f'treecover2000')
+        forest_mask_display = forest_mask.select("treecover2000").mask(forest_mask)#.select(f'treecover2000')
     
     return (forest_mask, forest_mask_display)
 

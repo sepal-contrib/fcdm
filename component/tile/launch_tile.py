@@ -65,7 +65,7 @@ class LaunchTile(sw.Tile):
         )
         
         # compute nbr 
-        analysis_nrb_merge = ee.ImageCollection([])
+        analysis_nbr_merge = ee.ImageCollection([])
         reference_nbr_merge = ee.ImageCollection([])
         for sensor in self.model.sensors:
     
@@ -103,12 +103,12 @@ class LaunchTile(sw.Tile):
                 reference_nbr = reference_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius))
                 analysis_nbr = analysis_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius)) 
 
-            analysis_nrb_merge = analysis_nrb_merge.merge(analysis_nbr)
+            analysis_nbr_merge = analysis_nbr_merge.merge(analysis_nbr)
             reference_nbr_merge = reference_nbr_merge.merge(reference_nbr)
     
         # Capping of self-referenced single Second-NBR scenes at 0 and -1
         # Condensation of all available self-referenced single Second-NBR scenes per investigation period
-        analysis_nbr_norm_min = analysis_nrb_merge \
+        analysis_nbr_norm_min = analysis_nbr_merge \
             .map(cs.capping) \
             .qualityMosaic('NBR')
 
@@ -130,7 +130,7 @@ class LaunchTile(sw.Tile):
             # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
             self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
             self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
-            self.m.addLayer (NBR_difference_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
+            self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
 
         self.alert.add_live_msg('I finished displaying maps', 'success')
         
