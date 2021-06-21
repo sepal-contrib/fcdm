@@ -44,7 +44,7 @@ class LaunchTile(sw.Tile):
     def _update_geometry(self, change):
         """update the map widget geometry"""
         
-        self.tile.save.geometry = self.aoi_model.feature_collection
+        self.tile.save.geometry = self.aoi_model.feature_collection.geometry()
         
         return self
     
@@ -157,10 +157,10 @@ class LaunchTile(sw.Tile):
         # add the selected datasets to the export control 
         self.tile.save.set_data(datasets)
         self.tile.save.set_prefix(
-            self.model.reference_start[-4:], 
-            self.model.reference_end[-4:], 
-            self.model.analysis_start[-4:], 
-            self.model.analysis_end[-4:], 
+            self.model.reference_start[:4], 
+            self.model.reference_end[:4], 
+            self.model.analysis_start[:4], 
+            self.model.analysis_end[:4], 
             self.aoi_model.name
         )
             

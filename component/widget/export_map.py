@@ -71,6 +71,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
             children = [
                 v.CardTitle(children=[v.Html(tag='h4', children=[cm.export.title])]),
                 v.CardText(children=[
+                    self.w_prefix,
                     self.w_datasets,
                     v.Html(tag="h4", children=[cm.export.scale]),
                     self.w_scale,
@@ -117,19 +118,19 @@ class ExportMap(v.Menu, sw.SepalWidget):
         
         for name in self.w_datasets.v_model:
             
-            name = f"{prefix}_{name}
+            description = f"{self.w_prefix.v_model}_{name}"
             
             # set the parameters
             export_params = {
                 'image': self.datasets[name],
-                'description': name,
+                'description': description,
                 'scale': self.w_scale.v_model,
                 'region': self.geometry
             }
         
             # launch the task 
             if self.w_method.v_model == 'gee':
-                export_params.update(assetId=str(folder/name))
+                export_params.update(assetId=str(folder/description))
                 task = ee.batch.Export.image.toAsset(**export_params)
                 task.start()
                 self.alert.add_msg("the task have been launched in your GEE acount", "success")
@@ -138,12 +139,12 @@ class ExportMap(v.Menu, sw.SepalWidget):
             
                 gdrive = cs.gdrive()
             
-                files = gdrive.get_files(name)
+                files = gdrive.get_files(description)
                 if files == []:
                     task = ee.batch.Export.image.toDrive(**export_params)
                     task.start()
-                    gee.wait_for_completion(name, self.alert)
-                    files = gdrive.get_files(name)
+                    gee.wait_for_completion(description, self.alert)
+                    files = gdrive.get_files(description)
                 
                 gdrive.download_files(files, cp.result_dir)
                 gdrive.delete_files(files)
