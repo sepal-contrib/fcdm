@@ -18,7 +18,7 @@ class QuestionnaireTile (sw.Tile):
         sensor_tile  = SensorTile(model),
         basemap_tile = BasemapTile(model),
         input_tile = FcdmTile(model)
-        launch_tile = LaunchTile(aoi_model, model, result_tile.m)
+        launch_tile = LaunchTile(aoi_model, model, result_tile)
         
         tiles = [
             time_tile,

@@ -15,14 +15,15 @@ ee.Initialize()
 
 class LaunchTile(sw.Tile):
     
-    def __init__(self, aoi_model, model, map_):
+    def __init__(self, aoi_tile, model, result_tile):
         
         # gather the model objects 
-        self.aoi_model = aoi_model 
+        self.aoi_model = aoi_tile.view.model 
         self.model = model 
         
         # add the result_tile map to attributes 
-        self.m = map_
+        self.m = result_tile.m
+        self.tile = result_tile
         
         # create the widgets 
         mkd = sw.Markdown(cm.process_txt)
@@ -38,6 +39,14 @@ class LaunchTile(sw.Tile):
         
         # link the js behaviours
         self.btn.on_event('click', self._launch_fcdm)
+        aoi_tile.view.observe(self._update_geometry, 'updated')
+        
+    def _update_geometry(self, change):
+        """update the map widget geometry"""
+        
+        self.tile.save.geometry = self.aoi_model.feature_collection
+        
+        return self
     
     @su.loading_button(debug=True)
     def _launch_fcdm(self, widget, event, data):
