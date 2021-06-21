@@ -15,34 +15,41 @@ from component import parameter as cp
 ee.Initialize()
 
 class ExportMap(v.Menu, sw.SepalWidget):
-    
-    datasets_items = Any([]).tag(sync=True)
-    ticks_to_show = [10, 100, 200, 300]
+
+    TICKS_TO_SHOW = [10, 100, 200, 300]
     
     def __init__(self):
         
         # init the downloadable informations
         self.geometry = None
         self.names = []
-        self.datasets = []
+        self.datasets = {}
         
         # create the useful widgets 
         self.w_scale = v.Slider(
             class_="mt-5",
             v_model=30, #align on the landsat images,
             ticks = 'always',
-            tick_labels = [str(i) if i in self.ticks_to_show else "" for i in range(10, 301, 10)],
+            tick_labels = [str(i) if i in self.TICKS_TO_SHOW else "" for i in range(10, 301, 10)],
             min=10, 
             max=300, 
             thumb_label=True,
             step = 10
         )
         
+        self.w_prefix = v.TextField(
+            label = cm.export.name,
+            small = True,
+            dense = True,
+            v_model = None,
+        )
+        
         self.w_datasets = v.Select(
+            dense = True,
             small = True,
             label = cm.export.datasets,
             v_model = None,
-            items = self.datasets_items, 
+            items = [*self.datasets], 
             multiple = True,
             chips = True
         )
@@ -98,7 +105,6 @@ class ExportMap(v.Menu, sw.SepalWidget):
         
         # add js behaviour 
         self.w_apply.on_event('click', self._apply)
-        jslink((self, 'datasets_items'), (self.w_datasets, 'items'))
     
     def _apply(self, widget, event, data):
         """download the dataset using the given parameters"""
@@ -106,37 +112,56 @@ class ExportMap(v.Menu, sw.SepalWidget):
         folder = Path(ee.data.getAssetRoots()[0]['id'])
         
         # check if a dataset is existing
-        if self.dataset == [] or self.geometry == None:
+        if self.datasets == [] or self.geometry == None:
             return self
         
-        # set the parameters
-        export_params = {
-            'image': self.dataset,
-            'description': self.name,
-            'scale': self.w_scale.v_model,
-            'region': self.geometry
-        }
+        for name in self.w_datasets.v_model:
+            
+            name = f"{prefix}_{name}
+            
+            # set the parameters
+            export_params = {
+                'image': self.datasets[name],
+                'description': name,
+                'scale': self.w_scale.v_model,
+                'region': self.geometry
+            }
         
-        # launch the task 
-        if self.w_method.v_model == 'gee':
-            export_params.update(assetId=str(folder/name))
-            task = ee.batch.Export.image.toAsset(**export_params)
-            task.start()
-            self.alert.add_msg("the task have been launched in your GEE acount", "success")
-            
-        elif self.w_method.v_model == 'sepal':
-            
-            gdrive = cs.gdrive()
-            
-            files = gdrive.get_files(name)
-            if files == []:
-                task = ee.batch.Export.image.toDrive(**export_params)
+            # launch the task 
+            if self.w_method.v_model == 'gee':
+                export_params.update(assetId=str(folder/name))
+                task = ee.batch.Export.image.toAsset(**export_params)
                 task.start()
-                gee.wait_for_completion(name, self.alert)
+                self.alert.add_msg("the task have been launched in your GEE acount", "success")
+            
+            elif self.w_method.v_model == 'sepal':
+            
+                gdrive = cs.gdrive()
+            
                 files = gdrive.get_files(name)
+                if files == []:
+                    task = ee.batch.Export.image.toDrive(**export_params)
+                    task.start()
+                    gee.wait_for_completion(name, self.alert)
+                    files = gdrive.get_files(name)
                 
-            gdrive.download_files(files, cp.result_dir)
-            gdrive.delete_files(files)
-            self.alert.add_msg("map exported", "success")
+                gdrive.download_files(files, cp.result_dir)
+                gdrive.delete_files(files)
+                self.alert.add_msg("map exported", "success")
             
         return self
+    
+    def set_data(self, datasets):
+        
+        self.w_datasets.v_model = None
+        self.datasets = datasets
+        self.w_datasets.items = [*self.datasets]
+        
+        return self
+    
+    def set_prefix(self, start_ref, end_ref, start_monitor, end_monitor, aoi_name):
+        
+        self.w_prefix.v_model = f"{aoi_name}_{start_ref}-{end_ref}_{start_monitor}-{end_monitor}"
+        
+        return self
+        
