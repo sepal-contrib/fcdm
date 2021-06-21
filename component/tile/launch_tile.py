@@ -15,14 +15,15 @@ ee.Initialize()
 
 class LaunchTile(sw.Tile):
     
-    def __init__(self, aoi_model, model, map_):
+    def __init__(self, aoi_tile, model, result_tile):
         
         # gather the model objects 
-        self.aoi_model = aoi_model 
+        self.aoi_model = aoi_tile.view.model 
         self.model = model 
         
         # add the result_tile map to attributes 
-        self.m = map_
+        self.m = result_tile.m
+        self.tile = result_tile
         
         # create the widgets 
         mkd = sw.Markdown(cm.process_txt)
@@ -38,6 +39,14 @@ class LaunchTile(sw.Tile):
         
         # link the js behaviours
         self.btn.on_event('click', self._launch_fcdm)
+        aoi_tile.view.observe(self._update_geometry, 'updated')
+        
+    def _update_geometry(self, change):
+        """update the map widget geometry"""
+        
+        self.tile.save.geometry = self.aoi_model.feature_collection.geometry()
+        
+        return self
     
     @su.loading_button(debug=True)
     def _launch_fcdm(self, widget, event, data):
@@ -63,6 +72,11 @@ class LaunchTile(sw.Tile):
             cp.viz_forest_mask[self.model.forest_map], 
             'Forest mask'
         )
+        
+        # remove all already existing fcdm layers 
+        for layer in self.m.layers:
+            if not (layer.name == 'aoi' or layer.name == 'Forest mask' or layer.name == "CartoDB.DarkMatter"):
+                self.m.remove_layer(layer)
         
         # compute nbr 
         analysis_nbr_merge = ee.ImageCollection([])
@@ -115,24 +129,43 @@ class LaunchTile(sw.Tile):
         reference_nbr_norm_min = reference_nbr_merge \
             .map(cs.capping) \
             .qualityMosaic('NBR')
-
-        if self.model.index == 'change':
-
-            # Derive the Delta-NBR result
-            nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
-            nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
-
+        
+        # start display and saving of the different layers
+        datasets = {'forest mask': self.model.forest_mask}
+        
         # Display of condensed Base-NBR scene and information about the acquisition dates of the base satellite data per single pixel location
         self.m.addLayer(reference_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Reference')
         self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
+        
+        datasets['NBR_reference'] = reference_nbr_norm_min.select('NBR', 'yearday')
 
         if self.model.index == 'change':
+            
+            # Derive the Delta-NBR result
+            nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
+            nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
+            self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
+            
+            datasets['NBR_diff'] = reference_nbr_norm_min.select('NBR')            
+            
             # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
             self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
             self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
-            self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
+            
+            datasets['NBR_analysis'] = reference_nbr_norm_min.select('NBR', 'yearday')
+            
+        # add the selected datasets to the export control 
+        self.tile.save.set_data(datasets)
+        self.tile.save.set_prefix(
+            self.model.reference_start[:4], 
+            self.model.reference_end[:4], 
+            self.model.analysis_start[:4], 
+            self.model.analysis_end[:4], 
+            self.aoi_model.name
+        )
+            
 
-        self.alert.add_live_msg('I finished displaying maps', 'success')
+        self.alert.add_live_msg(cm.complete, 'success')
         
         return
         
