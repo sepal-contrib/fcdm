@@ -393,13 +393,6 @@ def capping(image):
 ############################
 ##      never called      ##
 ############################
-def capping_fires(image):
-    
-    nbr = image.select('NBR')
-    yearday = image.select('yearday')
-    
-    return nbr.multiply(-1) \
-        .addBands(yearday)
 
 # getting the forest_mask var 
 def get_forest_mask(forest_map, year, treecover, aoi):

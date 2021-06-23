@@ -75,7 +75,7 @@ class LaunchTile(sw.Tile):
         
         # remove all already existing fcdm layers 
         for layer in self.m.layers:
-            if not (layer.name == 'aoi' or layer.name == 'Forest mask' or layer.name == "CartoDB.DarkMatter"):
+            if not layer.name in ['aoi', 'Forest mask', 'CartoDB.DarkMatter']:
                 self.m.remove_layer(layer)
         
         # compute nbr 
