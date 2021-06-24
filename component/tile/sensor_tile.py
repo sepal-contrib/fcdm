@@ -9,7 +9,6 @@ class SensorTile(sw.Tile):
     def __init__(self, model):
         
         # create the widgets 
-        index_select = v.Select(label=cm.input_lbl.index, items=cp.index, v_model=model.index)
         sensors_select = v.Select(label=cm.input_lbl.sensor, items=[*cp.sensors], v_model =model.sensors, multiple=True, chips=True)
         landsat_7_switch = v.Switch(label=cm.input_lbl.do_threshold, v_model =model.improve_L7)
         landsat_7_slider = v.Slider(class_='mt-5', label=cm.input_lbl.threshold, min=0, max=.3, step=.001, v_model=model.improve_threshold, thumb_label='always')
@@ -17,7 +16,6 @@ class SensorTile(sw.Tile):
         
         # bind them to io 
         model \
-            .bind(index_select, 'index',) \
             .bind(sensors_select, 'sensors',) \
             .bind(landsat_7_switch, 'improve_L7',) \
             .bind(landsat_7_slider, 'improve_threshold',) \
@@ -26,7 +24,7 @@ class SensorTile(sw.Tile):
         super().__init__(
             'nested_widget',
             cm.tile.sensor,
-            inputs = [index_select, sensors_select, landsat_7_switch, landsat_7_slider, cloud_buffer]
+            inputs = [sensors_select, landsat_7_switch, landsat_7_slider, cloud_buffer]
         )
         
         

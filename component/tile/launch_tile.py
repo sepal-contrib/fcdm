@@ -97,6 +97,8 @@ class LaunchTile(sw.Tile):
                 self.aoi_model.feature_collection
             )
             analysis_nbr = analysis.map(partial(cs.compute_nbr, sensor=sensor))
+            
+            self.m.addLayer(analysis_nbr.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},f'{sensor}_nbr_analysis')
 
             # analysis period
             # data preparation
@@ -112,10 +114,10 @@ class LaunchTile(sw.Tile):
                 self.aoi_model.feature_collection
             )
             reference_nbr = analysis.map(partial(cs.compute_nbr, sensor=sensor))
-
-            if self.model.index == 'change':
-                reference_nbr = reference_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius))
-                analysis_nbr = analysis_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius)) 
+            
+            # adjust with kernel
+            reference_nbr = reference_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius))
+            analysis_nbr = analysis_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius)) 
 
             analysis_nbr_merge = analysis_nbr_merge.merge(analysis_nbr)
             reference_nbr_merge = reference_nbr_merge.merge(reference_nbr)
@@ -138,21 +140,19 @@ class LaunchTile(sw.Tile):
         self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
         
         datasets['NBR_reference'] = reference_nbr_norm_min.select('NBR', 'yearday')
+            
+        # Derive the Delta-NBR result
+        nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
+        nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
+        self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
 
-        if self.model.index == 'change':
-            
-            # Derive the Delta-NBR result
-            nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
-            nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
-            self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
-            
-            datasets['NBR_diff'] = reference_nbr_norm_min.select('NBR')            
-            
-            # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
-            self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
-            self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
-            
-            datasets['NBR_analysis'] = reference_nbr_norm_min.select('NBR', 'yearday')
+        datasets['NBR_diff'] = reference_nbr_norm_min.select('NBR')            
+
+        # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
+        self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
+        self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
+
+        datasets['NBR_analysis'] = reference_nbr_norm_min.select('NBR', 'yearday')
             
         # add the selected datasets to the export control 
         self.tile.save.set_data(datasets)
