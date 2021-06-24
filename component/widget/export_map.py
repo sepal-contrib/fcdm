@@ -3,6 +3,7 @@ from pathlib import Path
 
 import ipyvuetify as v
 from sepal_ui import sepalwidgets as sw 
+from sepal_ui.scripts import utils as su
 from sepal_ui.scripts import gee
 import ee 
 from traitlets import Any
@@ -65,7 +66,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
         
         self.alert = sw.Alert()
         
-        self.w_apply = sw.Btn(cm.export.apply, small=True)
+        self.btn = sw.Btn(cm.export.apply, small=True)
         
         export_data = v.Card(
             children = [
@@ -79,12 +80,12 @@ class ExportMap(v.Menu, sw.SepalWidget):
                     self.w_method,
                     self.alert
                 ]),
-                v.CardActions(children=[ self.w_apply])
+                v.CardActions(children=[ self.btn])
             ]
         )
 
         # the clickable icon
-        self.btn = v.Btn(
+        self.w_down = v.Btn(
             v_on='menu.on', 
             color='primary', 
             icon = True, 
@@ -100,13 +101,14 @@ class ExportMap(v.Menu, sw.SepalWidget):
             v_slots = [{
                 'name': 'activator',
                 'variable': 'menu',
-                'children': self.btn
+                'children': self.w_down
             }]
         )
         
         # add js behaviour 
-        self.w_apply.on_event('click', self._apply)
+        self.btn.on_event('click', self._apply)
     
+    @su.loading_button(debug=False)
     def _apply(self, widget, event, data):
         """download the dataset using the given parameters"""
         
