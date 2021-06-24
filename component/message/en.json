@@ -51,6 +51,7 @@
     "launch_btn": "Run FCDM computation",
     "complete": "Computation complete",
     "missing_input": "The input {} is missing",
+    "no_mix": "You cannot mix sentinel and landsat data",
     "export": {
         "title": "Export map",
         "scale": "Scale",
