@@ -251,7 +251,7 @@ def masking_L_1(image, cloud_buffer, sensor):
     cloud = image.select('cloud') # from the simplecloud algorithm
     nir = image.select(bands['nir'])
     swir2 = image.select(bands['swir2'])
-    bright_temp1 = image.select('bright_temp1') 
+    bright_temp1 = image.select(bands['bright_temp1']) 
     
     
     no_cloud_mask = nir.eq(0) \
