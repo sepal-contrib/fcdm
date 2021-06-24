@@ -48,7 +48,7 @@ class LaunchTile(sw.Tile):
         
         return self
     
-    @su.loading_button(debug=True)
+    @su.loading_button(debug=False)
     def _launch_fcdm(self, widget, event, data):
         
         # test all the values
