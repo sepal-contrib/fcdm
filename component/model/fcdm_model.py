@@ -13,7 +13,6 @@ class FcdmModel(model.Model):
     treecover = Any(70).tag(sync=True)
 
     # sensors 
-    index = Any(cp.index[0]['value']).tag(sync=True)
     sensors = Any(['landsat 8']).tag(sync=True)
     cloud_buffer = Any(500).tag(sync=True)
     improve_L7 = Any(False).tag(sync=True)

@@ -11,7 +11,7 @@ forest_map = [
     {'text': cm.forest_map.roadless, 'value': 'roadless', 'disabled': True}
 ]
 
-forest_map_max_year = 2018
+forest_map_max_year = 2020
 forest_map_min_year = 2000
 
 max_kernel_radius = 1000

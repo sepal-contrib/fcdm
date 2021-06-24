@@ -14,7 +14,7 @@ class ResultTile(sw.Tile):
         
         # create the map 
         self.m = sm.SepalMap()
-        self.m.max_zoom = 12
+        self.m.max_zoom = 14 # after this zoom level GEE crash and refuse to display images
         self.m.add_control(WidgetControl(widget=self.save, position='topleft'))
         
         # create the tile 

@@ -13,7 +13,8 @@ sensors = {
             'swir2': 'B7',
             'pixel_qa': 'pixel_qa',
             'bqa': 'BQA',
-            'cloud': 'cloud'
+            'cloud': 'cloud',
+            'bright_temp1': 'B6'
         },
         'res': 30
     },
@@ -31,7 +32,8 @@ sensors = {
             'swir2': 'B7',
             'pixel_qa': 'pixel_qa',
             'bqa': 'BQA',
-            'cloud': 'cloud'
+            'cloud': 'cloud',
+            'bright_temp1': 'B6'
         },
         'res': 30
     },
@@ -49,7 +51,8 @@ sensors = {
             'swir2': 'B7',
             'pixel_qa': 'pixel_qa',
             'bqa': 'BQA',
-            'cloud': 'cloud'
+            'cloud': 'cloud',
+            'bright_temp1': 'B6'
         },
         'res': 30
     },
