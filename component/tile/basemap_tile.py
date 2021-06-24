@@ -30,6 +30,7 @@ class BasemapTile(sw.Tile):
         
         # js behavior 
         self.forest_map.observe(self._update_status, 'v_model')
+        model.observe(self._select_year, 'reference_start')
         
     def _update_status(self, change):
         """disable the hansen params if no forest mask is selected"""
@@ -40,4 +41,8 @@ class BasemapTile(sw.Tile):
         self.tree_cover.disabled = not gfc
         
         return self
+    def _select_year(self, change):
+        
+        year = int(change['new'][:4])
+        self.year.v_model = min(max(cp.forest_map_min_year, year), cp.forest_map_max_year)
             
