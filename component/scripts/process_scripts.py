@@ -422,17 +422,22 @@ def get_forest_mask(forest_map, year, treecover, aoi):
 
 def get_collection(sensor, start, end, forest_map, year, forest_mask, cloud_buffer, aoi):
     
-    toa_collection = ee.ImageCollection(cp.sensors[sensor]['dataset']['toa']) \
-        .filterDate(start, end) \
-        .filterBounds(aoi) \
-        .map(ee.Algorithms.Landsat.simpleCloudScore) \
-        .select('cloud')
-    
+    # create the image collection
     sr_collection = ee.ImageCollection(cp.sensors[sensor]['dataset']['sr']) \
         .filterDate(start, end) \
         .filterBounds(aoi)
     
-    sr_toa_collection = join_landsat_collections(sr_collection, toa_collection)
+    sr_toa_collection = sr_collection
+    
+    if 'landsat' in sensor:
+        # create the cloud ImageCollection
+        toa_collection = ee.ImageCollection(cp.sensors[sensor]['dataset']['toa']) \
+            .filterDate(start, end) \
+            .filterBounds(aoi) \
+            .map(ee.Algorithms.Landsat.simpleCloudScore) \
+            .select('cloud')
+    
+        sr_toa_collection = join_landsat_collections(sr_collection, toa_collection)
     
     # masking of sensor errors and non-forest areas
     sr_toa_masked_collection = sr_toa_collection.map(partial(
