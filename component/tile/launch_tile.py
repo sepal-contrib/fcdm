@@ -54,7 +54,7 @@ class LaunchTile(sw.Tile):
         # test all the values
         if not self.alert.check_input(self.aoi_model.name, cm.missing_input): return
         for k, val in self.model.export_data().items():
-            if not ('forest_mask' in k or self.alert.check_input(val, cm.missing_input)): return
+            if not ('forest_mask' in k or self.alert.check_input(val, cm.missing_input.format(k))): return
         
         # display the aoi 
         self.m.addLayer(self.aoi_model.feature_collection, {'color': sc.info}, 'aoi')
@@ -97,8 +97,6 @@ class LaunchTile(sw.Tile):
                 self.aoi_model.feature_collection
             )
             analysis_nbr = analysis.map(partial(cs.compute_nbr, sensor=sensor))
-            
-            self.m.addLayer(analysis_nbr.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},f'{sensor}_nbr_analysis')
 
             # analysis period
             # data preparation
@@ -113,7 +111,7 @@ class LaunchTile(sw.Tile):
                 self.model.cloud_buffer,
                 self.aoi_model.feature_collection
             )
-            reference_nbr = analysis.map(partial(cs.compute_nbr, sensor=sensor))
+            reference_nbr = reference.map(partial(cs.compute_nbr, sensor=sensor))
             
             # adjust with kernel
             reference_nbr = reference_nbr.map(partial(cs.adjustment_kernel, kernel_size = self.model.kernel_radius))
@@ -143,16 +141,16 @@ class LaunchTile(sw.Tile):
             
         # Derive the Delta-NBR result
         nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
-        nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
+        nbr_diff_capped = nbr_diff.select('NBR')#.where(nbr_diff.select('NBR').lt(0), 0)
         self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
 
-        datasets['NBR_diff'] = reference_nbr_norm_min.select('NBR')            
+        datasets['NBR_diff'] = nbr_diff_capped.select('NBR')            
 
         # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
         self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
         self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
 
-        datasets['NBR_analysis'] = reference_nbr_norm_min.select('NBR', 'yearday')
+        datasets['NBR_analysis'] = analysis_nbr_norm_min.select('NBR', 'yearday')
             
         # add the selected datasets to the export control 
         self.tile.save.set_data(datasets)
