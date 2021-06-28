@@ -6,6 +6,8 @@ ee.Initialize()
 
 from component import parameter as cp
 
+
+
 def join_landsat_collections(coll1, coll2):
     """Joining of SR and TOA collections in order to make combined use of pixel_qa band and simple_cloud_score algorithm (Thanks to George Azzari)"""
       
@@ -292,6 +294,37 @@ masking_1 = {
     'sentinel 2': masking_S_1
 }
 
+def ddr_filter(nbr_diff, threshold, radius, nb_disturbances):
+    """
+    clean the final result using a Disturbing-density-related (DDR) filtering
+    If a certain number of disturbance events is not reach within the moving kernel then the pixel value is masked (set to 0)
+    """
+
+    # create a mask with the event threshold
+    nbr_diff_threshold = nbr_diff \
+        .where(nbr_diff.lt(threshold),0) \
+        .And((nbr_diff.where(nbr_diff.gte(threshold),1)))
+    
+    # count the number of event in the kernel according to the mask
+    nbr_nb_events = nbr_diff.reduceNeighborhood(
+        reducer = ee.Reducer.sum().unweighted(),
+        kernel = ee.Kernel.circle(radius,'meters')
+    )
+    
+    # mask pixel where there are not enough events in the kernel
+    nbr_nb_events_mask = nbr_diff.where(nbr_nb_events.gte(nb_disturbances),1) \
+        .And((nbr_diff.where(nbr_nb_events.lt(nb_disturbances),0))) \
+        .unmask(-2)
+    
+    # get back the real values where necessary
+    nbr_diff_ddr = nbr_nb_events_mask \
+        .multiply(nbr_diff) \
+        .unmask(-2) \
+        .updateMask(nbr_diff.mask())
+    
+    return nbr_diff_ddr
+    
+    
 def masking_2(image, forest_mask, year, forest_map, sensor):
     """Masking Step 2: Masking of sensor errors and non-forest areas"""
 
