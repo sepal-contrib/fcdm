@@ -130,27 +130,25 @@ class LaunchTile(sw.Tile):
             .map(cs.capping) \
             .qualityMosaic('NBR')
         
-        # start display and saving of the different layers
+        # save the differents layer to download
         datasets = {'forest mask': self.model.forest_mask}
-        
-        # Display of condensed Base-NBR scene and information about the acquisition dates of the base satellite data per single pixel location
-        self.m.addLayer(reference_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Reference')
-        self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
-        
         datasets['NBR_reference'] = reference_nbr_norm_min.select('NBR', 'yearday')
+        datasets['NBR_analysis'] = analysis_nbr_norm_min.select('NBR', 'yearday')
             
         # Derive the Delta-NBR result
         nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
         nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
-        self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
-
         datasets['NBR_diff'] = nbr_diff_capped.select('NBR')            
 
         # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
-        self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
-        self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
-
-        datasets['NBR_analysis'] = analysis_nbr_norm_min.select('NBR', 'yearday')
+        #self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
+        #self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
+        
+        # Display of condensed Base-NBR scene and information about the acquisition dates of the base satellite data per single pixel location
+        #self.m.addLayer(reference_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Reference')
+        #self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
+        
+        self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
             
         # add the selected datasets to the export control 
         self.tile.save.set_data(datasets)
@@ -162,7 +160,6 @@ class LaunchTile(sw.Tile):
             self.aoi_model.name
         )
             
-
         self.alert.add_live_msg(cm.complete, 'success')
         
         return
