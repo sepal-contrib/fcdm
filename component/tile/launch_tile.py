@@ -132,13 +132,13 @@ class LaunchTile(sw.Tile):
         
         # save the differents layer to download
         datasets = {'forest mask': self.model.forest_mask}
-        datasets['NBR_reference'] = reference_nbr_norm_min.select('NBR', 'yearday')
-        datasets['NBR_analysis'] = analysis_nbr_norm_min.select('NBR', 'yearday')
+        datasets['Reference rNBR'] = reference_nbr_norm_min.select('NBR', 'yearday')
+        datasets['Analysis rNBR'] = analysis_nbr_norm_min.select('NBR', 'yearday')
             
         # Derive the Delta-NBR result
         nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
         nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
-        datasets['NBR_diff'] = nbr_diff_capped.select('NBR')            
+        datasets['Delta rNBR'] = nbr_diff_capped.select('NBR')            
 
         # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
         #self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
