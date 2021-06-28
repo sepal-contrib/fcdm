@@ -138,7 +138,8 @@ class LaunchTile(sw.Tile):
         # Derive the Delta-NBR result
         nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
         nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
-        datasets['Delta rNBR'] = nbr_diff_capped.select('NBR')            
+        nbr_diff_ddr =  cs.ddr_filter(nbr_diff_capped, self.model.filter_threshod, self.model.filter_radius, self.model.cleaning_offset)
+        datasets['Delta rNBR'] = nbr_diff_ddr.select('NBR')            
 
         # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
         #self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
@@ -148,7 +149,7 @@ class LaunchTile(sw.Tile):
         #self.m.addLayer(reference_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Reference')
         #self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
         
-        self.m.addLayer (nbr_diff_capped.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
+        self.m.addLayer (nbr_diff_ddr.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
             
         # add the selected datasets to the export control 
         self.tile.save.set_data(datasets)
