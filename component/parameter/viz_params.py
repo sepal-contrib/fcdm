@@ -1,5 +1,5 @@
 viz_forest_mask = {
-    'roadless': {
+    'tropical moist forest': {
         'min': 1,
         'max': 15,
         'palette': [
