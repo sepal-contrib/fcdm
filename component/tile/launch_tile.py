@@ -138,6 +138,9 @@ class LaunchTile(sw.Tile):
         # Derive the Delta-NBR result
         nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
         nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
+        datasets['Delta rNBR no DDR'] = nbr_diff_capped.select('NBR')   
+        
+        # apply the DDR filtering 
         nbr_diff_ddr =  cs.ddr_filter(nbr_diff_capped, self.model.filter_threshod, self.model.filter_radius, self.model.cleaning_offset)
         datasets['Delta rNBR'] = nbr_diff_ddr.select('NBR')            
 
