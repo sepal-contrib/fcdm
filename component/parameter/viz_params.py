@@ -30,3 +30,9 @@ viz_forest_mask = {
     },
     'no_map': {}
 }
+
+legend_dict = {
+    "forest mask": '#006600',
+    "change": 'Ce0f0f',
+    "no change": 'D3D3D3'
+}
