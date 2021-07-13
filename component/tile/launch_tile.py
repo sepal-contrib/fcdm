@@ -55,6 +55,10 @@ class LaunchTile(sw.Tile):
         if not self.alert.check_input(self.aoi_model.name, cm.missing_input): return
         for k, val in self.model.export_data().items():
             if not ('forest_mask' in k or self.alert.check_input(val, cm.missing_input.format(k))): return
+            
+        # read the value 
+        # make the difference between preselected and assets
+        self.model.forest_map = self.model.forest_map['value'] if type(self.model.forest_map) == dict else self.model.forest_map
         
         # check the validity of the forest mask 
         #cs.check_forest_mask(self.model.forest_map, self.aoi_model.feature_collection)
