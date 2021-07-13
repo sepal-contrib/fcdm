@@ -15,7 +15,7 @@ class SensorTile(sw.Tile):
         self.start = 1950 # prior to any sats
         
         # create the widgets 
-        self.sensors_select = v.Select(label=cm.input_lbl.sensor, items=[], v_model=None, multiple=True, chips=True, deletable_chips=True)
+        self.sensors_select = v.Select(label=cm.input_lbl.sensor, items=[], v_model=[], multiple=True, chips=True, deletable_chips=True)
         landsat_7_switch = v.Switch(label=cm.input_lbl.do_threshold, v_model =model.improve_L7)
         landsat_7_slider = v.Slider(class_='mt-5', label=cm.input_lbl.threshold, min=0, max=.3, step=.001, v_model=model.improve_threshold, thumb_label='always')
         cloud_buffer = v.Slider(class_='mt-5', label=cm.input_lbl.cloud_buffer, min=0, max =2500, step=10, v_model=model.cloud_buffer, thumb_label='always')
@@ -88,7 +88,7 @@ class SensorTile(sw.Tile):
         
         # reset current values
         self.sensors_select.items = []
-        self.sensors_select.v_model = None
+        self.sensors_select.v_model = []
         
         # check every satellite availability
         years = range(self.start, self.end + 1)
