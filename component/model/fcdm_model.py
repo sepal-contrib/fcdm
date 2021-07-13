@@ -8,7 +8,7 @@ from component import parameter as cp
 class FcdmModel(model.Model):
         
     # basemap 
-    forest_map = Any(cp.forest_map[0]['value']).tag(sync=True)
+    forest_map = Any(cp.forest_map[0]).tag(sync=True)
     forest_map_year = Any(cp.forest_map_min_year).tag(sync=True)
     treecover = Any(70).tag(sync=True)
 

@@ -37,7 +37,11 @@ class BasemapTile(sw.Tile):
     def _update_status(self, change):
         """disable the hansen params if no forest mask is selected"""
         
-        gfc = change['new'] == 'gfc'
+        # read the value 
+        # make the difference between preselected and assets
+        value = change['new']['value'] if type(change['new']) == dict else change['new']
+        
+        gfc = value == 'gfc'
         
         self.year.disabled = not gfc 
         self.tree_cover.disabled = not gfc
