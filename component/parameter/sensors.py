@@ -1,5 +1,9 @@
+from datetime import datetime as dt
+
 sensors = {
     'landsat 4': {
+        'start': 1982,
+        'end': 1993,
         'dataset': {
             'toa':'LANDSAT/LT04/C01/T1_TOA',
             'sr': 'LANDSAT/LT04/C01/T1_SR'
@@ -19,6 +23,8 @@ sensors = {
         'res': 30
     },
     'landsat 5': {
+        'start': 1984,
+        'end': 2013,
         'dataset': {
             'toa':'LANDSAT/LT05/C01/T1_TOA',
             'sr': 'LANDSAT/LT05/C01/T1_SR'
@@ -38,6 +44,8 @@ sensors = {
         'res': 30
     },
     'landsat 7': {
+        'start': 1999,
+        'end': dt.now().year,
         'dataset': {
             'toa':'LANDSAT/LE07/C01/T1_TOA',
             'sr': 'LANDSAT/LE07/C01/T1_SR'
@@ -57,6 +65,8 @@ sensors = {
         'res': 30
     },
     'landsat 8': {
+        'start': 2013,
+        'end': dt.now().year,
         'dataset': {
             'toa':'LANDSAT/LC08/C01/T1_TOA',
             'sr': 'LANDSAT/LC08/C01/T1_SR'
@@ -76,6 +86,8 @@ sensors = {
         'res': 30
     },
     'sentinel 2': {
+        'start': 2015,
+        'end': dt.now().year,
         'dataset':{
             'toa': 'COPERNICUS/S2',
             'sr': 'COPERNICUS/S2_SR'

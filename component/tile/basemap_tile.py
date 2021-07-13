@@ -11,7 +11,9 @@ class BasemapTile(sw.Tile):
         # no need to gather the io object as attribute as there are no custom methods
         
         # create the widgets
-        self.forest_map = v.Select(label=cm.input_lbl.forest_map, items=cp.forest_map, v_model=model.forest_map)
+        self.forest_map = sw.AssetSelect(label=cm.input_lbl.forest_map, v_model=model.forest_map, types=['IMAGE'])
+        self.forest_map.items = [{'header': 'predifined layers'}] + cp.forest_map + self.forest_map.items
+        #self.forest_map = v.Select(label=cm.input_lbl.forest_map, items=cp.forest_map, v_model=model.forest_map)
         self.year = v.Slider(class_='mt-5', label=cm.input_lbl.forest_map_year, min=cp.forest_map_min_year, max=cp.forest_map_max_year, v_model=model.forest_map_year, thumb_label='always')
         self.tree_cover = v.Slider(class_='mt-5', label=cm.input_lbl.treecover, v_model=model.treecover, thumb_label='always')
         

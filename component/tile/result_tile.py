@@ -4,6 +4,7 @@ from ipyleaflet import WidgetControl
 
 from component.message import cm
 from component import widget as cw
+from component import parameter as cp
 
 class ResultTile(sw.Tile):
     
@@ -15,7 +16,14 @@ class ResultTile(sw.Tile):
         # create the map 
         self.m = sm.SepalMap()
         self.m.max_zoom = 14 # after this zoom level GEE crash and refuse to display images
+        
+        # add a legend to the map 
+        self.m.add_legend(legend_title="Map egend", legend_dict=cp.legend_dict) 
+        
+        # add the export control
         self.m.add_control(WidgetControl(widget=self.save, position='topleft'))
+        
+        
         
         # create the tile 
         super().__init__(

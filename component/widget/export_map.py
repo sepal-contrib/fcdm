@@ -120,7 +120,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
         
         for name in self.w_datasets.v_model:
             
-            description = f"{self.w_prefix.v_model}_{name}"
+            description = su.normalize_str(f"{self.w_prefix.v_model}_{name}")
             
             # set the parameters
             export_params = {

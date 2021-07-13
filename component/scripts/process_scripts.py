@@ -7,7 +7,37 @@ ee.Initialize()
 from component import parameter as cp
 
 
+def check_forest_mask(asset, ee_aoi):
+    """check that the given Image asset is a valid mask with values between 0 and 1"""
+    
+    # exit on predefined ones 
+    if asset in [v['value'] for v in cp.forest_map]:
+        return
+    
+    image = ee.Image(asset)
+    
+    # comupte a reducer 
+    reduction = image.reduceRegion(
+        reducer=ee.Reducer.frequencyHistogram(), 
+        geometry=ee_aoi.geometry(),
+        bestEffort=True
+    )
 
+    # Remove all the unnecessary reducer output structure and make a list of values.
+    values = ee.Dictionary(reduction.get(image.bandNames().get(0))) \
+        .keys() \
+        .map(ee.Number.parse) \
+        .getInfo()
+    
+    print(values)
+    
+    
+    # raise an exception if values are out of 0 1
+    if not all(v in [0,1] for v in values):
+        raise Exception("To be used as a forest mask, the selected asset need to be a binary Image with only 0 and 1 values")
+        
+    return
+    
 def join_landsat_collections(coll1, coll2):
     """Joining of SR and TOA collections in order to make combined use of pixel_qa band and simple_cloud_score algorithm (Thanks to George Azzari)"""
       
@@ -422,17 +452,11 @@ def capping(image):
         .multiply(-1) \
         .addBands(yearday)
 
-
-############################
-##      never called      ##
-############################
-
 # getting the forest_mask var 
 def get_forest_mask(forest_map, year, treecover, aoi):
     """return the forest mask corresponding to the forest_map input"""
     
     hansen = ee.Image(cp.hansen_gfc).clip(aoi)
-    
     
     if forest_map == 'no_map':
         forest_mask = hansen.select('treecover2000').gte(0)
@@ -450,6 +474,10 @@ def get_forest_mask(forest_map, year, treecover, aoi):
             .bitwise_not()
         forest_mask = basemap2000.multiply(change)
         forest_mask_display = forest_mask.select("treecover2000").mask(forest_mask)#.select(f'treecover2000')
+        
+    else:
+        forest_mask = ee.image(forest_map).select(1)
+        forest_mask_display = forest_mask.updateMask(forest_mask)
     
     return (forest_mask, forest_mask_display)
 
