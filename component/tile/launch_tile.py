@@ -48,13 +48,16 @@ class LaunchTile(sw.Tile):
         
         return self
     
-    @su.loading_button(debug=False)
+    @su.loading_button(debug=True)
     def _launch_fcdm(self, widget, event, data):
         
         # test all the values
         if not self.alert.check_input(self.aoi_model.name, cm.missing_input): return
         for k, val in self.model.export_data().items():
             if not ('forest_mask' in k or self.alert.check_input(val, cm.missing_input.format(k))): return
+        
+        # check the validity of the forest mask 
+        #cs.check_forest_mask(self.model.forest_map, self.aoi_model.feature_collection)
         
         # display the aoi 
         self.m.addLayer(self.aoi_model.feature_collection, {'color': sc.info}, 'aoi')
