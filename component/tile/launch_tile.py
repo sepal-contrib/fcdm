@@ -76,7 +76,7 @@ class LaunchTile(sw.Tile):
         )
         self.m.addLayer(
             self.model.forest_mask_display, 
-            cp.viz_forest_mask[self.model.forest_map], 
+            cp.viz_forest_mask(self.model.forest_map), 
             'Forest mask'
         )
         

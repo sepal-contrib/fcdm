@@ -398,7 +398,10 @@ def masking_2(image, forest_mask, year, forest_map, sensor):
             .updateMask(sensor_error_buffer.eq(1)) \
             .updateMask(forest_mask)
     }
-         
+    
+    if forest_map not in out.keys():
+        forest_map = 'gfc'
+        
     return out[forest_map]
 
 def compute_nbr(image, sensor):
@@ -476,7 +479,7 @@ def get_forest_mask(forest_map, year, treecover, aoi):
         forest_mask_display = forest_mask.select("treecover2000").mask(forest_mask)#.select(f'treecover2000')
         
     else:
-        forest_mask = ee.image(forest_map).select(1)
+        forest_mask = ee.Image(forest_map).select(0)
         forest_mask_display = forest_mask.updateMask(forest_mask)
     
     return (forest_mask, forest_mask_display)
