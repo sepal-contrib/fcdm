@@ -41,10 +41,11 @@ class BasemapTile(sw.Tile):
         # make the difference between preselected and assets
         value = change['new']['value'] if type(change['new']) == dict else change['new']
         
-        gfc = value == 'gfc'
+        date = value in ['gfc', 'roadless']
+        treecover = value == 'gfc'
         
-        self.year.disabled = not gfc 
-        self.tree_cover.disabled = not gfc
+        self.year.disabled = not date 
+        self.tree_cover.disabled = not treecover
         
         return self
     def _select_year(self, change):

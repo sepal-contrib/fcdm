@@ -389,10 +389,10 @@ def masking_2(image, forest_mask, year, forest_map, sensor):
         'no_map': image.updateMask(sensor_error_buffer.eq(1).And(forest_mask.eq(1))),
         'roadless': image \
             .updateMask(sensor_error_buffer.eq(1)) \
-            .updateMask(forest_mask.select(f'Jan{year + 1}').eq(1) \
-                .Or(forest_mask.select(f'Jan{year + 1}').eq(2)) \
-                .Or(forest_mask.select(f'Jan{year + 1}').eq(13)) \
-                .Or(forest_mask.select(f'Jan{year + 1}').eq(14))
+            .updateMask(forest_mask.select(f'Dec{year + 1}').eq(1) \
+                .Or(forest_mask.select(f'Dec{year + 1}').eq(2)) \
+                .Or(forest_mask.select(f'Dec{year + 1}').eq(13)) \
+                .Or(forest_mask.select(f'Dec{year + 1}').eq(14))
             ),
         'gfc': image \
             .updateMask(sensor_error_buffer.eq(1)) \
@@ -466,8 +466,8 @@ def get_forest_mask(forest_map, year, treecover, aoi):
         forest_mask_display = forest_mask.updateMask(forest_mask)
     
     elif forest_map == 'roadless':
-        forest_mask = ee.Image(cp.roadless).mosaic().bytes().clip(aoi)
-        forest_mask_display = forest_mask.updateMask(forest_mask).select(f'Jan{year+1}')
+        forest_mask = ee.ImageCollection(cp.roadless).mosaic().byte().clip(aoi)
+        forest_mask_display = forest_mask.updateMask(forest_mask).select(f'Dec{year+1}')
         
     elif forest_map == 'gfc':
         basemap2000 = hansen.unmask(0).select('treecover2000').gte(treecover) 

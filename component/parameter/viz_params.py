@@ -1,7 +1,7 @@
 def viz_forest_mask(key):
     
     mask = {
-        'tropical moist forest': {
+        'roadless': {
             'min': 1,
             'max': 15,
             'palette': [
