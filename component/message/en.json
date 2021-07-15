@@ -15,7 +15,7 @@
     },
     "forest_map": {
         "no_map": "No forest map",
-        "roadless": "Roadless map (1982 - 2017)",
+        "roadless": "TMF annual change (1982 - 2017)",
         "gfc": "Global forest Cover (2012 - 2018)"
     },
     "input_lbl":{
