@@ -416,12 +416,11 @@ def compute_nbr(image, sensor):
     swir2 = image.select(bands['swir2'])
     
     doy = ee.Algorithms.Date(ee.Number(image.get("system:time_start")))
-    yearday = ee.Number(doy.get('year')).multiply(10000) \
-        .add(ee.Number(doy.get('month')).multiply(100)) \
-        .add(ee.Number(doy.get('day')))
+    yearday = ee.Number(doy.get('year')) \
+        .add(ee.Number.parse(doy.format('D')).divide(365))
     
     # create an image out of the yearday value
-    yearday = ee.Image.constant(yearday).toInt32().rename('yearday')
+    yearday = ee.Image.constant(yearday).float().rename('yearday')
     
     nbr = nir.subtract(swir2) \
         .divide(nir.add(swir2)) \
