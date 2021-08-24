@@ -145,19 +145,15 @@ class LaunchTile(sw.Tile):
         # Derive the Delta-NBR result
         nbr_diff = analysis_nbr_norm_min.select('NBR').subtract(reference_nbr_norm_min.select('NBR'))
         nbr_diff_capped = nbr_diff.select('NBR').where(nbr_diff.select('NBR').lt(0), 0)
-        datasets['Delta rNBR without DDR filtering'] = nbr_diff_capped.select('NBR')   
+        datasets['Delta rNBR without DDR filtering'] = nbr_diff_capped \
+            .addBands(analysis_nbr_norm_min.select('yearday')) \
+            .select('NBR', 'yearday')   
         
         # apply the DDR filtering 
-        nbr_diff_ddr =  cs.ddr_filter(nbr_diff_capped, self.model.filter_threshod, self.model.filter_radius, self.model.cleaning_offset)
-        datasets['Delta rNBR'] = nbr_diff_ddr.select('NBR')            
-
-        # Display of condensed Second-NBR scene and information about the acquisition dates of the second satellite data per single pixel location
-        #self.m.addLayer(analysis_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Analysis')
-        #self.m.addLayer(analysis_nbr_norm_min.select('yearday'),{'min': self.model.yearday_a_s(), 'max': self.model.yearday_a_e(), 'palette': 'ff0000,ffffff'},'Date rNBR-Analysis')
-        
-        # Display of condensed Base-NBR scene and information about the acquisition dates of the base satellite data per single pixel location
-        #self.m.addLayer(reference_nbr_norm_min.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'rNBR-Reference')
-        #self.m.addLayer(reference_nbr_norm_min.select('yearday'),{'min': self.model.yearday_r_s(), 'max': self.model.yearday_r_e() ,'palette': 'ff0000,ffffff'},'Date rNBR-Reference')
+        nbr_diff_ddr =  cs.ddr_filter(nbr_diff_capped.select('NBR'), self.model.filter_threshod, self.model.filter_radius, self.model.cleaning_offset)
+        datasets['Delta rNBR'] = nbr_diff_ddr \
+            .addBands(analysis_nbr_norm_min.select('yearday')) \
+            .select('NBR', 'yearday')            
         
         self.m.addLayer (nbr_diff_ddr.select('NBR'),{'min':[0],'max':[0.3],'palette':'D3D3D3,Ce0f0f'},'Delta-rNBR')
             
@@ -173,7 +169,8 @@ class LaunchTile(sw.Tile):
         
         # preselect delta-rNBR 
         self.tile.save.w_datasets.v_model = ['Delta rNBR']
-            
+        
+        # give feedback to the user
         self.alert.add_live_msg(cm.complete, 'success')
         
         return
