@@ -1,6 +1,7 @@
 # Forest Canopy Disturbance Monitoring (FCDM Tool) 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Black badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > (former Delta-rNBR, Version 2.4)
 

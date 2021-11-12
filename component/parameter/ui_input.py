@@ -1,14 +1,14 @@
 from component.message import cm
 
 index = [
-    {'text': cm.index.nbr,    'value': 'nbr'},
-    {'text': cm.index.change, 'value': 'change'}
+    {"text": cm.index.nbr, "value": "nbr"},
+    {"text": cm.index.change, "value": "change"},
 ]
 
 forest_map = [
-    {'text': cm.forest_map.gfc,      'value': 'gfc'},
-    {'text': cm.forest_map.no_map,   'value': 'no_map'}, 
-    {'text': cm.forest_map.roadless, 'value': 'roadless'}#, 'disabled': True}
+    {"text": cm.forest_map.gfc, "value": "gfc"},
+    {"text": cm.forest_map.no_map, "value": "no_map"},
+    {"text": cm.forest_map.roadless, "value": "roadless"},  # , 'disabled': True}
 ]
 
 forest_map_max_year = 2020

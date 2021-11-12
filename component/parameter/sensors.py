@@ -1,112 +1,97 @@
 from datetime import datetime as dt
 
 sensors = {
-    'landsat 4': {
-        'start': 1982,
-        'end': 1993,
-        'dataset': {
-            'toa':'LANDSAT/LT04/C01/T1_TOA',
-            'sr': 'LANDSAT/LT04/C01/T1_SR'
+    "landsat 4": {
+        "start": 1982,
+        "end": 1993,
+        "dataset": {"toa": "LANDSAT/LT04/C01/T1_TOA", "sr": "LANDSAT/LT04/C01/T1_SR"},
+        "bands": {
+            "blue": "B1",
+            "green": "B2",
+            "red": "B3",
+            "nir": "B4",
+            "swir1": "B5",
+            "swir2": "B7",
+            "pixel_qa": "pixel_qa",
+            "bqa": "BQA",
+            "cloud": "cloud",
+            "bright_temp1": "B6",
         },
-        'bands': {
-            'blue' : 'B1',
-            'green': 'B2',
-            'red': 'B3',
-            'nir': 'B4',
-            'swir1': 'B5',
-            'swir2': 'B7',
-            'pixel_qa': 'pixel_qa',
-            'bqa': 'BQA',
-            'cloud': 'cloud',
-            'bright_temp1': 'B6'
-        },
-        'res': 30
+        "res": 30,
     },
-    'landsat 5': {
-        'start': 1984,
-        'end': 2013,
-        'dataset': {
-            'toa':'LANDSAT/LT05/C01/T1_TOA',
-            'sr': 'LANDSAT/LT05/C01/T1_SR'
+    "landsat 5": {
+        "start": 1984,
+        "end": 2013,
+        "dataset": {"toa": "LANDSAT/LT05/C01/T1_TOA", "sr": "LANDSAT/LT05/C01/T1_SR"},
+        "bands": {
+            "blue": "B1",
+            "green": "B2",
+            "red": "B3",
+            "nir": "B4",
+            "swir1": "B5",
+            "swir2": "B7",
+            "pixel_qa": "pixel_qa",
+            "bqa": "BQA",
+            "cloud": "cloud",
+            "bright_temp1": "B6",
         },
-        'bands': {
-            'blue' : 'B1',
-            'green': 'B2',
-            'red': 'B3',
-            'nir': 'B4',
-            'swir1': 'B5',
-            'swir2': 'B7',
-            'pixel_qa': 'pixel_qa',
-            'bqa': 'BQA',
-            'cloud': 'cloud',
-            'bright_temp1': 'B6'
-        },
-        'res': 30
+        "res": 30,
     },
-    'landsat 7': {
-        'start': 1999,
-        'end': dt.now().year,
-        'dataset': {
-            'toa':'LANDSAT/LE07/C01/T1_TOA',
-            'sr': 'LANDSAT/LE07/C01/T1_SR'
+    "landsat 7": {
+        "start": 1999,
+        "end": dt.now().year,
+        "dataset": {"toa": "LANDSAT/LE07/C01/T1_TOA", "sr": "LANDSAT/LE07/C01/T1_SR"},
+        "bands": {
+            "blue": "B1",
+            "green": "B2",
+            "red": "B3",
+            "nir": "B4",
+            "swir1": "B5",
+            "swir2": "B7",
+            "pixel_qa": "pixel_qa",
+            "bqa": "BQA",
+            "cloud": "cloud",
+            "bright_temp1": "B6",
         },
-        'bands': {
-            'blue' : 'B1',
-            'green': 'B2',
-            'red': 'B3',
-            'nir': 'B4',
-            'swir1': 'B5',
-            'swir2': 'B7',
-            'pixel_qa': 'pixel_qa',
-            'bqa': 'BQA',
-            'cloud': 'cloud',
-            'bright_temp1': 'B6'
-        },
-        'res': 30
+        "res": 30,
     },
-    'landsat 8': {
-        'start': 2013,
-        'end': dt.now().year,
-        'dataset': {
-            'toa':'LANDSAT/LC08/C01/T1_TOA',
-            'sr': 'LANDSAT/LC08/C01/T1_SR'
+    "landsat 8": {
+        "start": 2013,
+        "end": dt.now().year,
+        "dataset": {"toa": "LANDSAT/LC08/C01/T1_TOA", "sr": "LANDSAT/LC08/C01/T1_SR"},
+        "bands": {
+            "blue": "B2",
+            "green": "B3",
+            "red": "B4",
+            "nir": "B5",
+            "swir1": "B6",
+            "swir2": "B7",
+            "pixel_qa": "pixel_qa",
+            "bqa": "BQA",
+            "cloud": "cloud",
+            "bright_temp1": "B10",
         },
-        'bands': {
-            'blue' : 'B2',
-            'green': 'B3',
-            'red': 'B4',
-            'nir': 'B5',
-            'swir1': 'B6',
-            'swir2': 'B7',
-            'pixel_qa': 'pixel_qa',
-            'bqa': 'BQA', 
-            'cloud': 'cloud',
-            'bright_temp1': 'B10'
-        },
-        'res': 30
+        "res": 30,
     },
-    'sentinel 2': {
-        'start': 2015,
-        'end': dt.now().year,
-        'dataset':{
-            'toa': 'COPERNICUS/S2',
-            'sr': 'COPERNICUS/S2_SR'
+    "sentinel 2": {
+        "start": 2015,
+        "end": dt.now().year,
+        "dataset": {"toa": "COPERNICUS/S2", "sr": "COPERNICUS/S2_SR"},
+        "bands": {
+            "blue": "B2",
+            "green": "B3",
+            "red": "B4",
+            "nir": "B8",
+            "swir1": "B11",
+            "swir2": "B12",
+            "qa60": "QA60",
+            "aerosol": "B1",
+            "water_vapor": "B9",
+            "red_edge_3": "B7",
+            "red_edge_4": "B8A",
+            "red_edge_2": "B6",
+            "scl": "SCL",
         },
-        'bands': {
-            'blue' : 'B2',
-            'green': 'B3',
-            'red': 'B4',
-            'nir': 'B8',
-            'swir1': 'B11',
-            'swir2': 'B12',
-            'qa60': 'QA60',
-            'aerosol': 'B1',
-            'water_vapor': 'B9',
-            'red_edge_3': 'B7',
-            'red_edge_4': 'B8A',
-            'red_edge_2': 'B6',
-            'scl': 'SCL'
-        },
-        'res': 10
-    }
+        "res": 10,
+    },
 }
