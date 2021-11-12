@@ -3,6 +3,7 @@ import ipyvuetify as v
 
 from component import parameter as cp
 from component.message import cm
+from component import widget as cw
 
 
 class BasemapTile(sw.Tile):
@@ -11,12 +12,11 @@ class BasemapTile(sw.Tile):
         # no need to gather the io object as attribute as there are no custom methods
 
         # create the widgets
-        self.forest_map = sw.AssetSelect(
+        self.forest_map = cw.CustomAssetSelect(
             label=cm.input_lbl.forest_map, v_model=model.forest_map, types=["IMAGE"]
         )
-        self.forest_map.items = (
-            [{"header": "predifined layers"}] + cp.forest_map + self.forest_map.items
-        )
+        self.forest_map.default_asset = cp.forest_map
+
         # self.forest_map = v.Select(label=cm.input_lbl.forest_map, items=cp.forest_map, v_model=model.forest_map)
         self.year = v.Slider(
             class_="mt-5",
