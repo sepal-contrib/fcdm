@@ -20,7 +20,7 @@ class ResultTile(sw.Tile):
         )
 
         # add a legend to the map
-        self.m.add_legend(legend_title="Map egend", legend_dict=cp.legend_dict)
+        self.m.add_legend(legend_title="Legend", legend_dict=cp.legend_dict)
 
         # add the export control
         self.m.add_control(WidgetControl(widget=self.save, position="topleft"))

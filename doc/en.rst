@@ -75,8 +75,8 @@ After selecting the desired area, click over the :code:`Select these inputs` but
 
     You can only select one area of interest. In some cases, depending on the input data you could run out of resources in GEE.
     
-.. thumbnail:: #
-    :title: AOI selection
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/aoi_selector.png
+    :title: AOI selection of the Sandan province in Cambodia
 
 Workflow parameters
 ^^^^^^^^^^^^^^^^^^^
@@ -98,8 +98,8 @@ Simply click on the different :code:`datepicker`to select the start date end end
     -   reference period: :code:`2019-01-01 2019-12-31`
     -   analysis period: :code:`2020-01-01 2020-12-31`
     
-.. thumbnail:: # 
-    :title: The time panel
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/time_period.png 
+    :title: Selection of 2 time periods covering the whole years of 2020 as analysis and 2019 as reference
     
 
 Sensors parameters
@@ -118,8 +118,8 @@ The sensors can be selected in the dropdown menu. This list is only showing the 
 
     Data from Sentinel and Landsat program cannot be mixed.
     
-.. thumbnail:: #
-    :title: the sensor selector
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/sensor.png 
+    :title: select the landsat famiy (L7 and L8) without thresholding L7 data
     
 
 threshold for landsat 7
@@ -158,8 +158,8 @@ The user can also use any GEE asset by setting it's value in the :code:`textfiel
 
 
 
-.. thumbnail:: #
-    :title: use the built-in GFC dataset to build a forest mask
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/basemap.png 
+    :title: use the built-in GFC dataset to build a forest mask with a 70% of treecover and based on the 2019 version. 
 
 Advanced parameters
 *******************
@@ -184,7 +184,7 @@ Here, 3 parameters need to be set:
 -   **Radius of circular kernel for filtering**: in metter, the radius of the buffer. Default to :code:`80`.
 -   **Min number of disturbance events per cleaning kernel**: the threshold number of disturbance events within a kernel to consider the kernel as "disturbed". Default to :code:`3`.
 
-.. thumbnail:: #
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/advanced_params.png 
     :title: the default set of advanced parameters
     
 Compute
@@ -196,7 +196,7 @@ Click on :guilabel:`run fcdm computation` to launch the process in GEE. the laye
     
     This operation ctake no time as the actual coputation is done when the map refresh itself.
 
-.. thumbnail:: #
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/run_fcdm.png 
     :title: the run panel
 
 Map
@@ -216,7 +216,7 @@ In this map, the different layers of the computation will be displayed:
 
     Every time the user zoom in, GEE will recompute all the value on the fly. This opreation is time consuming so be patient. The forest mask is a simple image, when the delta-rNBR finishes its refresh, it's perfectly aligned with it. As long as it's blurry, it means that GEE is still computing.
 
-.. thumbnail:: #
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/result_map.png 
     :title: vizualization of the SANDAN province with all the default parameters with reference period of 2019 and analysis 2020
     
     
@@ -225,8 +225,9 @@ Download images
 
 Click on the cloud in the top left corner of the map, it will open the following popup where the user will be able to customize exportation parameters.  
 
-.. image:: #
+.. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/export_panel.png 
     :title: the downloading popup
+    :widgth: 50%
     
 -   **filename prefix**: the prefix that will be used to described the file in SEPAL or the asset in GEE. Default to :code:`<aoi_anme>_<referenced perdiod year>_<analysis_period_year``. It can be customize in anything but every non UTF8 character will automatically be changed in "_".
 -   **select dataset**: the user can export any of the following datasets: :code:`Delta-rNBR`, :code:`Delta-rNBR wihthout DDR`, :code:`anaysis rNBR`, :code:`reference rNBR` and :code:`forest mask`. default to only :code:`delta-rNBR`.
