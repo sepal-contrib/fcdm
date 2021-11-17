@@ -87,10 +87,10 @@ Select Time periods
 *******************
 
 The selected time period are the period that will be used as **reference** and **analysis** period.
-Simply click on the different :code:`datepicker`to select the start date end end date of this time periods. 
+Simply click on the different :code:`datepicker` to select the start date end end date of this time periods. 
 
-.. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/datepicker-demo.png
-    :title: demo of the datepicker usage
+.. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/datepicker-demo.gif
+    :alt: demo of the datepicker usage
 
 .. note:: 
 
@@ -142,13 +142,13 @@ The FCDM process need to create a forest non-forest mask to produce the results.
     
     .. tip::
 
-    The year is automatically set to the start year of the **reference** period.
+        The year is automatically set to the start year of the **reference** period.
     
 -   TMF: This mask will be based on the `Tropical Moist Forest <https://forobs.jrc.ec.europa.eu/TMF/gee_tutorial/>`__ product from JRC. The user will also need to provide the year of analysis.
     
     .. tip::
 
-    The year is automatically set to the start year of the **reference** period.
+        The year is automatically set to the start year of the **reference** period.
     
 -   no forest map: there will be no forest masking
 
@@ -226,8 +226,9 @@ Download images
 Click on the cloud in the top left corner of the map, it will open the following popup where the user will be able to customize exportation parameters.  
 
 .. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/export_panel.png 
-    :title: the downloading popup
-    :widgth: 50%
+    :alt: the downloading popup
+    :width: 50%
+    :align: center
     
 -   **filename prefix**: the prefix that will be used to described the file in SEPAL or the asset in GEE. Default to :code:`<aoi_anme>_<referenced perdiod year>_<analysis_period_year``. It can be customize in anything but every non UTF8 character will automatically be changed in "_".
 -   **select dataset**: the user can export any of the following datasets: :code:`Delta-rNBR`, :code:`Delta-rNBR wihthout DDR`, :code:`anaysis rNBR`, :code:`reference rNBR` and :code:`forest mask`. default to only :code:`delta-rNBR`.
