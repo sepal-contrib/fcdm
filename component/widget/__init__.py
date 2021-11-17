@@ -4,3 +4,4 @@
 # if you use a module import all the functions here to only have 1 call to make
 from .export_map import *
 from .custom_asset_select import *
+from .custom_map import *

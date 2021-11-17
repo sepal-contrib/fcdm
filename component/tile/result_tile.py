@@ -14,7 +14,7 @@ class ResultTile(sw.Tile):
         self.save = cw.ExportMap()
 
         # create the map
-        self.m = sm.SepalMap()
+        self.m = cw.CustomMap()
         self.m.max_zoom = (
             14  # after this zoom level GEE crash and refuse to display images
         )
