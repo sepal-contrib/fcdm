@@ -15,7 +15,7 @@ The FCDM tool supports the detection of forest canopy disturbance from satellite
 However, compared to deforestation, the mapping of "forest degradation" has proven to be technically much more challenging and the signal of a forest canopy 
 disturbance is less prominent, as it does not result in a change of land cover.
 
-The FCDM tool has been developed at the Joint Research Centre (JRC) within the ReCaREDD Project and uses a change detection approach based on the difference (delta) of the self-referenced "Normalized Burn Ratio" index (Delta-rNBR; `Langner et al. 201 <https://doi.org/10.3390/rs10040544>`__) to detect forest canopy change over defined periods at pixel and sub-pixel level. 
+The FCDM tool has been developed at the Joint Research Centre (JRC) within the ReCaREDD Project and uses a change detection approach based on the difference (delta) of the self-referenced "Normalized Burn Ratio" index (Delta-rNBR; `Langner et al. 2018 <https://doi.org/10.3390/rs10040544>`__) to detect forest canopy change over defined periods at pixel and sub-pixel level. 
 The underlying Delta-rNBR index allows the detection of forest canopy disturbance within tropical (semi-)evergreen forest canopies ("forest remaining forest"), 
 resulting for instance from tree removal, felling damages or from logging trails and leading.
 
