@@ -21,6 +21,7 @@ resulting for instance from tree removal, felling damages or from logging trails
 
 .. thumbnail:: https://forobs.jrc.ec.europa.eu/iforce/images/fcdm_process.jpg
     :title: Processing steps of the FCDM tool
+    :group: fcdm
 
 General Purpose 
 ^^^^^^^^^^^^^^^
@@ -77,6 +78,7 @@ After selecting the desired area, click over the :code:`Select these inputs` but
     
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/aoi_selector.png
     :title: AOI selection of the Sandan province in Cambodia
+    :group: fcdm
 
 Workflow parameters
 ^^^^^^^^^^^^^^^^^^^
@@ -100,6 +102,7 @@ Simply click on the different :code:`datepicker` to select the start date end en
     
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/time_period.png 
     :title: Selection of 2 time periods covering the whole years of 2020 as analysis and 2019 as reference
+    :group: fcdm
     
 
 Sensors parameters
@@ -120,6 +123,7 @@ The sensors can be selected in the dropdown menu. This list is only showing the 
     
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/sensor.png 
     :title: select the landsat famiy (L7 and L8) without thresholding L7 data
+    :group: fcdm
     
 
 threshold for landsat 7
@@ -160,6 +164,7 @@ The user can also use any GEE asset by setting it's value in the :code:`textfiel
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/basemap.png 
     :title: use the built-in GFC dataset to build a forest mask with a 70% of treecover and based on the 2019 version. 
+    :group: fcdm
 
 Advanced parameters
 *******************
@@ -186,6 +191,7 @@ Here, 3 parameters need to be set:
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/advanced_params.png 
     :title: the default set of advanced parameters
+    :group: fcdm
     
 Compute
 *******
@@ -198,6 +204,7 @@ Click on :guilabel:`run fcdm computation` to launch the process in GEE. the laye
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/run_fcdm.png 
     :title: the run panel
+    :group: fcdm
 
 Map
 ^^^
@@ -218,6 +225,7 @@ In this map, the different layers of the computation will be displayed:
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/result_map.png 
     :title: vizualization of the SANDAN province with all the default parameters with reference period of 2019 and analysis 2020
+    :group: fcdm
     
     
 Download images
