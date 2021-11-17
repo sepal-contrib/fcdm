@@ -56,7 +56,7 @@ Usage
 Select AOI
 ^^^^^^^^^^
 
-The *delta-NBR* will be calculated based on the user inputs. The first mandatory input is the Area Of Interest (AOI). In this step you’ll have the possibility to choose from a predefined list of administrative layers or use your own datasets, the available options are:
+The *delta-rNBR* will be calculated based on the user inputs. The first mandatory input is the Area Of Interest (AOI). In this step you’ll have the possibility to choose from a predefined list of administrative layers or use your own datasets, the available options are:
 
 **Predefined layers**
 
@@ -88,7 +88,7 @@ Click on :guilabel:`process` to display the process panel. In this section we'll
 Select Time periods
 *******************
 
-The selected time period are the period that will be used as **reference** and **analysis** period.
+The selected time periods are the periods that will be used as **reference** and **analysis** period.
 Simply click on the different :code:`datepicker` to select the start date end end date of this time periods. 
 
 .. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/datepicker-demo.gif
@@ -96,7 +96,7 @@ Simply click on the different :code:`datepicker` to select the start date end en
 
 .. note:: 
 
-    As suggested in the article, the FCDM analysis perform better with time period smaller or equal to a year. Some changes could be missed if you use longer **analysis** period. As an example the following parameter are fitting: 
+    As suggested in the article, the FCDM analysis performs better with time periods smaller or equal to a year. Longer periods tend to accumulate noise. As an example the following parameters are fitting: 
     -   reference period: :code:`2019-01-01 2019-12-31`
     -   analysis period: :code:`2020-01-01 2020-12-31`
     
@@ -115,7 +115,7 @@ Sensors
 
     The sensor list is updated with the available satellites dataset for the selected time periods. User is thus forced to select the dates first. 
     
-The sensors can be selected in the dropdown menu. This list is only showing the satellites datasets that are available for the selected time period. The user need to select at least 1. 
+The sensors can be selected in the dropdown menu. This list is only showing the satellites datasets that are available for the selected time period. The user needs to select at least 1. 
 
 .. note:: 
 
@@ -126,21 +126,21 @@ The sensors can be selected in the dropdown menu. This list is only showing the 
     :group: fcdm
     
 
-threshold for landsat 7
+Threshold for landsat 7
 #######################
 
-Value of the threshold applied on landsat 7 data. This is a correction parameter to remove some of the effects of SLC issue. default to :code:`0.08`.
+Value of the threshold applied on Landsat 7 data. This is a correction parameter to remove some of the effects of SLC issue. Default set to :code:`0.08`.
 
 Cloud buffer
 ############
 
-Value of the cloud buffering used in the cloud masking operation of the FCDM process in meters. default to :code:`500`. 
+Value of the cloud buffering used in the cloud masking operation of the FCDM process in meters. Default set to :code:`500`. 
 
 Basemap
 *******
 
 The FCDM process need to create a forest non-forest mask to produce the results. This mask is derivated from data provided by the user.
-3 default datasets are preselected: 
+Three default datasets can be selected: 
 
 -   Global forest cover: This mask will be based on the `global forest cover <https://earthenginepartners.appspot.com/science-2013-global-forest>`__ product from University of Maryland. The user will also need to provide the year to use and the treecover level to diferenciate forest from the rest.
     
@@ -154,7 +154,7 @@ The FCDM process need to create a forest non-forest mask to produce the results.
 
         The year is automatically set to the start year of the **reference** period.
     
--   no forest map: there will be no forest masking
+-   No forest map: there will be no forest masking
 
 The user can also use any GEE asset by setting it's value in the :code:`textfield` or selecting an image in the raster list. The image needs to be a mask with values of the first band set to: 
 -   0 for non-forest 
@@ -174,20 +174,20 @@ These parameters are advanced parameters of the FCDM process please read the art
 Self-referencing
 ################
 
-For the self referencing kernel you simply need to set 1 single parameter: **Radius of circular kernel** that will define in meter the buffer used for the self-referencing operation. default to code:`150`.
+For the self referencing kernel you simply need to set 1 single parameter: **Radius of circular kernel** that will define in meter the buffer used for the self-referencing operation. default set to: code:`150`.
 
 DDR
 ###
 
 .. note::
 
-    Disturbing-density-realted (DDR) filtering
+    Disturbance-Density-Realted (DDR) filtering
 
 Here, 3 parameters need to be set: 
 
--   **Threshold for filtering**: The threshold of change magnitude that will be considered as disturbance. Default to :code:`0.035`.
--   **Radius of circular kernel for filtering**: in metter, the radius of the buffer. Default to :code:`80`.
--   **Min number of disturbance events per cleaning kernel**: the threshold number of disturbance events within a kernel to consider the kernel as "disturbed". Default to :code:`3`.
+-   **Threshold for filtering**: The threshold of change magnitude that will be considered as intermediate disturbance result. Default to :code:`0.035`.
+-   **Radius of circular kernel for filtering**: in meter, the radius of the buffer. Default to: code:`80`.
+-   **Min number of intermediate disturbance events per cleaning kernel**: the threshold number of intermediate disturbance events within a kernel to consider the kernel center pixel to be kept or discarded (irrespective of pixel value). Default set to :code:`3`.
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/advanced_params.png 
     :title: the default set of advanced parameters
@@ -196,11 +196,11 @@ Here, 3 parameters need to be set:
 Compute
 *******
 
-Click on :guilabel:`run fcdm computation` to launch the process in GEE. the layers will automatically be displayed on the visualisation map.
+Click on :guilabel:`Run FCDM Computation` to launch the process in GEE. The layers will automatically be displayed on the visualisation map.
 
 .. warning::
     
-    This operation ctake no time as the actual coputation is done when the map refresh itself.
+    This operation takes no time as the actual computation is done when the map refreshes itself.
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/run_fcdm.png 
     :title: the run panel
@@ -217,11 +217,11 @@ In this map, the different layers of the computation will be displayed:
 
 .. note::
 
-    When the map is fully zoomed out, the disturbances are not visible because of GEE pyramiding policy. Zoom in 2 to 3 times to see the disturbances
+    When the map is fully zoomed out, the disturbances are not visible because of GEE pyramiding policy. Zoom in 2 to 3 times to see the disturbances.
 
 .. warning:: 
 
-    Every time the user zoom in, GEE will recompute all the value on the fly. This opreation is time consuming so be patient. The forest mask is a simple image, when the delta-rNBR finishes its refresh, it's perfectly aligned with it. As long as it's blurry, it means that GEE is still computing.
+    Every time the user zoom in, GEE will recompute all the values on the fly. This opreation is time consuming so be patient. The forest mask is a simple image, when the delta-rNBR finishes its refresh, it's perfectly aligned with it. As long as it's blurry, it means that GEE is still computing.
 
 .. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/result_map.png 
     :title: vizualization of the SANDAN province with all the default parameters with reference period of 2019 and analysis 2020
@@ -239,14 +239,14 @@ Click on the cloud in the top left corner of the map, it will open the following
     :align: center
     
 -   **filename prefix**: the prefix that will be used to described the file in SEPAL or the asset in GEE. Default to :code:`<aoi_anme>_<referenced perdiod year>_<analysis_period_year``. It can be customize in anything but every non UTF8 character will automatically be changed in "_".
--   **select dataset**: the user can export any of the following datasets: :code:`Delta-rNBR`, :code:`Delta-rNBR wihthout DDR`, :code:`anaysis rNBR`, :code:`reference rNBR` and :code:`forest mask`. default to only :code:`delta-rNBR`.
+-   **select dataset**: the user can export any of the following datasets: :code:`Delta-rNBR`, :code:`Delta-rNBR wihthout DDR`, :code:`anaysis rNBR`, :code:`reference rNBR` and :code:`forest mask`. default to only :code:`Delta-rNBR`.
 -   **scale**: The user can select any exportation scale from 10m to 300m.
 -   **select export method**: as a SEPAL file or as a GEE asset
     
     .. warning::
     
         if you select :code:`as a SEPAL file`, then the application cannot be closed before the end of the exportation. 
-        On the other hand GEE export can be monitor from GEE task manager.
+        On the other hand GEE export can be monitored from the GEE task manager.
         
 Click :guilabel:`Apply` to start the exportation process. 
     
