@@ -91,8 +91,9 @@ Select Time periods
 The selected time periods are the periods that will be used as **reference** and **analysis** period.
 Simply click on the different :code:`datepicker` to select the start date end end date of this time periods. 
 
-.. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/datepicker-demo.gif
-    :alt: demo of the datepicker usage
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/datepicker-demo.gif
+    :title: demo of the datepicker usage
+    :group: fcdm
 
 .. note:: 
 
@@ -233,10 +234,11 @@ Download images
 
 Click on the cloud in the top left corner of the map, it will open the following popup where the user will be able to customize exportation parameters.  
 
-.. image:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/export_panel.png 
-    :alt: the downloading popup
+.. thumbnail:: https://raw.githubusercontent.com/12rambau/fcdm/master/doc/img/export_panel.png 
+    :title: the downloading popup
     :width: 50%
     :align: center
+    :group: fcdm
     
 -   **filename prefix**: the prefix that will be used to described the file in SEPAL or the asset in GEE. Default to :code:`<aoi_anme>_<referenced perdiod year>_<analysis_period_year``. It can be customize in anything but every non UTF8 character will automatically be changed in "_".
 -   **select dataset**: the user can export any of the following datasets: :code:`Delta-rNBR`, :code:`Delta-rNBR wihthout DDR`, :code:`anaysis rNBR`, :code:`reference rNBR` and :code:`forest mask`. default to only :code:`Delta-rNBR`.
