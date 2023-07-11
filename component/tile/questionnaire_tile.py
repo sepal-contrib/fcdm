@@ -12,7 +12,6 @@ from component.message import cm
 
 class QuestionnaireTile(sw.Tile):
     def __init__(self, aoi_model, model, result_tile):
-
         # build the tiles
         time_tile = (TimeTile(model),)
         sensor_tile = (SensorTile(model),)
@@ -26,7 +25,6 @@ class QuestionnaireTile(sw.Tile):
         step_content = []
         stepper_children = []
         for i, tile in enumerate(tiles):
-
             # for no reason the tiles are sometimes embed in a len 1 tuple
             tile = tile if type(tile) != tuple else tile[0]
 

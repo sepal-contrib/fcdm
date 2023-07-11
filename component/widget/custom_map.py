@@ -7,19 +7,16 @@ __all__ = ["CustomMap"]
 
 
 class StateBar(sw.StateBar):
-
     _name = Unicode("").tag(sync=True)
 
     def __init__(self, name="layer", **kwargs):
-
         super().__init__(**kwargs)
 
         self.msg = f"Loading {name}"
-        self.loading = True
+        self.loading = False
         self._name = name
 
     def activate(self, change):
-
         if change["new"]:
             self.show()
         else:
@@ -29,11 +26,9 @@ class StateBar(sw.StateBar):
 
 
 class CustomMap(SepalMap):
-
     layer_state_list = []
 
     def add_layer(self, l):
-
         # call the original function
         super().add_layer(l)
 
@@ -49,7 +44,6 @@ class CustomMap(SepalMap):
         return
 
     def remove_layer(self, l):
-
         # call the original function
         super().remove_layer(l)
 

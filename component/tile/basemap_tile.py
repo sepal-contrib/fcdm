@@ -8,7 +8,6 @@ from component import widget as cw
 
 class BasemapTile(sw.Tile):
     def __init__(self, model):
-
         # no need to gather the io object as attribute as there are no custom methods
 
         # create the widgets
@@ -65,7 +64,6 @@ class BasemapTile(sw.Tile):
         return self
 
     def _select_year(self, change):
-
         year = int(change["new"][:4])
         self.year.v_model = min(
             max(cp.forest_map_min_year, year), cp.forest_map_max_year

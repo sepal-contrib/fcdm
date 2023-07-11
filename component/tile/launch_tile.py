@@ -16,7 +16,6 @@ ee.Initialize()
 
 class LaunchTile(sw.Tile):
     def __init__(self, aoi_tile, model, result_tile):
-
         # gather the model objects
         self.aoi_model = aoi_tile.view.model
         self.model = model
@@ -50,7 +49,6 @@ class LaunchTile(sw.Tile):
 
     @su.loading_button(debug=True)
     def _launch_fcdm(self, widget, event, data):
-
         # test all the values
         if not self.alert.check_input(self.aoi_model.name, cm.missing_input):
             return
@@ -98,7 +96,6 @@ class LaunchTile(sw.Tile):
         analysis_nbr_merge = ee.ImageCollection([])
         reference_nbr_merge = ee.ImageCollection([])
         for sensor in self.model.sensors:
-
             # analysis period
             # data preparation
             # Calculation of single scenes of Base-NBR
