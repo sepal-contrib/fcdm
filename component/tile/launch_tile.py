@@ -124,6 +124,22 @@ class LaunchTile(sw.Tile):
                 self.model.cloud_buffer,
                 self.aoi_model.feature_collection,
             )
+
+            # current landsat 7/8 products are deprecated. It happens after
+            # last_date = {
+            #     "landsat 4": {"toa": "1993-02-14", "sr": "1993-02-14"},
+            #     "landsat 5": {"toa": "2011-05-24", "sr": "2011-05-24"},
+            #     "landsat 7": {"toa": "2021-12-30", "sr": "2021-12-30"},
+            #     "landsat 8": {"toa": "2021-12-29", "sr": "2021-12-29"},
+            #     "sentinel 2": {"toa": "2023-07-10", "sr": "2023-07-10"},
+            # }
+
+            # Raise an error if reference and analysis collections are empty
+            if not all([reference.size().getInfo(), analysis.size().getInfo()]):
+                raise Exception(
+                    "Product not available for the selected period. Please use a previous date."
+                )
+
             reference_nbr = reference.map(partial(cs.compute_nbr, sensor=sensor))
 
             # adjust with kernel
