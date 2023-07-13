@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
+import json
 from pathlib import Path
 
 import ee
 import io
 from googleapiclient.http import MediaIoBaseDownload
+from google.oauth2.credentials import Credentials
 from apiclient import discovery
 
 import logging
@@ -13,14 +14,16 @@ logging.getLogger("googleapiclient.discovery_cache").setLevel(logging.ERROR)
 
 class gdrive(object):
     def __init__(self):
-
         self.initialize = ee.Initialize()
-        self.credentials = ee.Credentials()
+        # Access to sepal access token
+        self.access_token = json.loads(
+            (Path.home() / ".config/earthengine/credentials").read_text()
+        ).get("access_token")
         self.service = discovery.build(
             serviceName="drive",
             version="v3",
             cache_discovery=False,
-            credentials=self.credentials,
+            credentials=Credentials(self.access_token),
         )
 
     def tasks_list(self):
@@ -104,7 +107,6 @@ class gdrive(object):
             # fo.close()
 
     def delete_files(self, files):
-
         service = self.service
 
         for f in files:

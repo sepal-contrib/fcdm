@@ -5,22 +5,11 @@ Cython
 pybind11
 pre-commit
 
-# if you require GDAL and or pyproj in your module please uncomment these lines
-# there are set up to be inlined with SEPAL implementation of GDAL and PROJ version
-pygdal==3.4.0.10
-pyproj<3.0.0
-
 # uncomment if you want to run your module with GEE in SEPAL
-git+https://github.com/openforis/earthengine-api.git@v0.1.270#egg=earthengine-api&subdirectory=python
+# this commit removes the dependency on ipywidgets js.
+git+https://github.com/12rambau/sepal_ui.git@5277a82db3fe4e5bb971eb6676b28d9652b90564
 
-# the base lib to run any sepal_ui based app 
-# don't forget to fix it to a specific version when you're app is ready
-sepal_ui==2.5.5
 
 # custom libs
-google-api-python-client<2,>=1.12.1
-ipyleaflet==0.13.3
 ipyvuetify==1.8.1
 ipywidgets==7.6.5
-traitlets==5.1.1
-cryptography>=2.1.4

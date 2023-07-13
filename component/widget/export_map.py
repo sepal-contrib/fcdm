@@ -17,11 +17,9 @@ ee.Initialize()
 
 
 class ExportMap(v.Menu, sw.SepalWidget):
-
     TICKS_TO_SHOW = [10, 100, 200, 300]
 
     def __init__(self):
-
         # init the downloadable informations
         self.geometry = None
         self.names = []
@@ -111,7 +109,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
         # add js behaviour
         self.btn.on_event("click", self._apply)
 
-    @su.loading_button(debug=False)
+    @su.loading_button(debug=True)
     def _apply(self, widget, event, data):
         """download the dataset using the given parameters"""
 
@@ -122,7 +120,6 @@ class ExportMap(v.Menu, sw.SepalWidget):
             return self
 
         for name in self.w_datasets.v_model:
-
             description = su.normalize_str(f"{self.w_prefix.v_model}_{name}")
 
             # set the parameters
@@ -131,6 +128,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
                 "description": description,
                 "scale": self.w_scale.v_model,
                 "region": self.geometry,
+                "maxPixels": 1e13,
             }
 
             # launch the task
@@ -143,7 +141,6 @@ class ExportMap(v.Menu, sw.SepalWidget):
                 )
 
             elif self.w_method.v_model == "sepal":
-
                 gdrive = cs.gdrive()
 
                 files = gdrive.get_files(description)
@@ -160,7 +157,6 @@ class ExportMap(v.Menu, sw.SepalWidget):
         return self
 
     def set_data(self, datasets):
-
         self.w_datasets.v_model = None
         self.datasets = datasets
         self.w_datasets.items = [*self.datasets]
@@ -168,7 +164,6 @@ class ExportMap(v.Menu, sw.SepalWidget):
         return self
 
     def set_prefix(self, start_ref, end_ref, start_monitor, end_monitor, aoi_name):
-
         self.w_prefix.v_model = (
             f"{aoi_name}_{start_ref}-{end_ref}_{start_monitor}-{end_monitor}"
         )

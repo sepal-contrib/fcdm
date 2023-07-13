@@ -7,7 +7,6 @@ from component.message import cm
 
 class FcdmTile(sw.Tile):
     def __init__(self, model):
-
         # create inputs
         radius_title = v.Html(tag="h4", class_="mt-5", children=[cm.input_lbl.self_ref])
         radius = v.Slider(

@@ -9,7 +9,6 @@ from component.message import cm
 
 class SensorTile(sw.Tile):
     def __init__(self, model):
-
         # create adjustable variables end and start
         self.end = dt.now().year
         self.start = 1950  # prior to any sats
@@ -46,10 +45,16 @@ class SensorTile(sw.Tile):
         )
 
         # bind them to io
-        model.bind(self.sensors_select, "sensors",).bind(
+        model.bind(
+            self.sensors_select,
+            "sensors",
+        ).bind(
             landsat_7_switch,
             "improve_L7",
-        ).bind(landsat_7_slider, "improve_threshold",).bind(
+        ).bind(
+            landsat_7_slider,
+            "improve_threshold",
+        ).bind(
             cloud_buffer,
             "cloud_buffer",
         )
@@ -100,7 +105,6 @@ class SensorTile(sw.Tile):
         return self
 
     def _change_end(self, change):
-
         self.end = int(change["new"][:4]) if change["new"] else dt.now().year
 
         self._check_sensor_availability()
@@ -108,7 +112,6 @@ class SensorTile(sw.Tile):
         return self
 
     def _change_start(self, change):
-
         self.start = int(change["new"][:4]) if change["new"] else 1950
 
         self._check_sensor_availability()

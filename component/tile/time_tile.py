@@ -6,7 +6,6 @@ from component.message import cm
 
 class TimeTile(sw.Tile):
     def __init__(self, model):
-
         # create the widgets
         baseline_title = v.Html(
             tag="h4", children=[cm.input_lbl.baseline], class_="mb-0 mt-5"

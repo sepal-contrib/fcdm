@@ -16,10 +16,10 @@ ee.Initialize()
 
 class LaunchTile(sw.Tile):
     def __init__(self, aoi_tile, model, result_tile):
-
         # gather the model objects
         self.aoi_model = aoi_tile.view.model
         self.model = model
+        self.attributes = {"id": "launch_tile"}
 
         # add the result_tile map to attributes
         self.m = result_tile.m
@@ -50,7 +50,6 @@ class LaunchTile(sw.Tile):
 
     @su.loading_button(debug=True)
     def _launch_fcdm(self, widget, event, data):
-
         # test all the values
         if not self.alert.check_input(self.aoi_model.name, cm.missing_input):
             return
@@ -98,7 +97,6 @@ class LaunchTile(sw.Tile):
         analysis_nbr_merge = ee.ImageCollection([])
         reference_nbr_merge = ee.ImageCollection([])
         for sensor in self.model.sensors:
-
             # analysis period
             # data preparation
             # Calculation of single scenes of Base-NBR
@@ -127,6 +125,22 @@ class LaunchTile(sw.Tile):
                 self.model.cloud_buffer,
                 self.aoi_model.feature_collection,
             )
+
+            # current landsat 7/8 products are deprecated. It happens after
+            # last_date = {
+            #     "landsat 4": {"toa": "1993-02-14", "sr": "1993-02-14"},
+            #     "landsat 5": {"toa": "2011-05-24", "sr": "2011-05-24"},
+            #     "landsat 7": {"toa": "2021-12-30", "sr": "2021-12-30"},
+            #     "landsat 8": {"toa": "2021-12-29", "sr": "2021-12-29"},
+            #     "sentinel 2": {"toa": "2023-07-10", "sr": "2023-07-10"},
+            # }
+
+            # Raise an error if reference and analysis collections are empty
+            if not all([reference.size().getInfo(), analysis.size().getInfo()]):
+                raise Exception(
+                    "Product not available for the selected period. Please use a previous date."
+                )
+
             reference_nbr = reference.map(partial(cs.compute_nbr, sensor=sensor))
 
             # adjust with kernel
@@ -172,6 +186,9 @@ class LaunchTile(sw.Tile):
         datasets["Delta rNBR"] = nbr_diff_ddr.addBands(
             analysis_nbr_norm_min.select("yearday")
         ).select("NBR", "yearday")
+
+        # debug purpose. Sasve the datasets to the element model
+        self.test_datasets = datasets
 
         self.m.addLayer(
             nbr_diff_ddr.select("NBR"),
