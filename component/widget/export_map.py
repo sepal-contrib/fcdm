@@ -109,7 +109,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
         # add js behaviour
         self.btn.on_event("click", self._apply)
 
-    @su.loading_button(debug=False)
+    @su.loading_button(debug=True)
     def _apply(self, widget, event, data):
         """download the dataset using the given parameters"""
 
@@ -128,7 +128,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
                 "description": description,
                 "scale": self.w_scale.v_model,
                 "region": self.geometry,
-                "maxPixels": 1e14,
+                "maxPixels": 1e13,
             }
 
             # launch the task

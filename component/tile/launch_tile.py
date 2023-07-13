@@ -19,6 +19,7 @@ class LaunchTile(sw.Tile):
         # gather the model objects
         self.aoi_model = aoi_tile.view.model
         self.model = model
+        self.attributes = {"id": "launch_tile"}
 
         # add the result_tile map to attributes
         self.m = result_tile.m
@@ -185,6 +186,9 @@ class LaunchTile(sw.Tile):
         datasets["Delta rNBR"] = nbr_diff_ddr.addBands(
             analysis_nbr_norm_min.select("yearday")
         ).select("NBR", "yearday")
+
+        # debug purpose. Sasve the datasets to the element model
+        self.test_datasets = datasets
 
         self.m.addLayer(
             nbr_diff_ddr.select("NBR"),
