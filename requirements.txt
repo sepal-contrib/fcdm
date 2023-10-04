@@ -1,15 +1,7 @@
-# these libs are requested to build common python libs 
-# if you are an advance user and are sure to not use them you can comment the following lines
-wheel
-Cython
-pybind11
-pre-commit
+jupyter
+voila
+earthengine-api
 
-# uncomment if you want to run your module with GEE in SEPAL
-# this commit removes the dependency on ipywidgets js.
-git+https://github.com/12rambau/sepal_ui.git@5277a82db3fe4e5bb971eb6676b28d9652b90564
-
-
-# custom libs
-ipyvuetify==1.8.1
-ipywidgets==7.6.5
+# This version contains file input improements and a fix for the map resize
+# and javascript links error fixed
+git+https://github.com/12rambau/sepal_ui.git@abad859fb2f675cc39d36df252dd967339c0c976
