@@ -48,7 +48,7 @@ class LaunchTile(sw.Tile):
 
         return self
 
-    @su.loading_button(debug=True)
+    @su.loading_button()
     def _launch_fcdm(self, widget, event, data):
         # test all the values
         if not self.alert.check_input(self.aoi_model.name, cm.missing_input):
