@@ -47,7 +47,7 @@
         "questionnaire": "Process tile",
         "result": "Result maps"
     },
-    "process_txt": "By clicking on the launch button, You will run the FCDM algorithm on the selected AOI using the parameters selected in the previous questionnaire. The result will be display in the interactive map of the result panel. Be aware that due to vizualization limitation the zooming tool of the map is deactivated. To explore the produced data, you should consider exporting as an asset or a Tif image using the export control at the top left corner of the map. You'll then be able to analyse your data in your favorite GIS software.",
+    "process_txt": "By clicking the 'Launch' button, you will initiate the FCDM algorithm on the selected Area of Interest (AOI) using the parameters chosen in the previous questionnaire. The results will be displayed in the interactive map located in the results panel. You can export it as an asset or a TIFF image using the export controls located at the top-left corner of the map. You can then analyze the data using your preferred GIS software.",
     "launch_btn": "Run FCDM computation",
     "complete": "Computation complete",
     "missing_input": "The input {} is missing",

@@ -109,7 +109,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
         # add js behaviour
         self.btn.on_event("click", self._apply)
 
-    @su.loading_button(debug=True)
+    @su.loading_button()
     def _apply(self, widget, event, data):
         """download the dataset using the given parameters"""
 
