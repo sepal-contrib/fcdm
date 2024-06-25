@@ -11,8 +11,6 @@ from component.message import cm
 from component import scripts as cs
 from component import parameter as cp
 
-ee.Initialize()
-
 
 class LaunchTile(sw.Tile):
     def __init__(self, aoi_tile, model, result_tile):

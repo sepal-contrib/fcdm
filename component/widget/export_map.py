@@ -13,8 +13,6 @@ from component.message import cm
 from component import scripts as cs
 from component import parameter as cp
 
-ee.Initialize()
-
 
 class ExportMap(v.Menu, sw.SepalWidget):
     TICKS_TO_SHOW = [10, 100, 200, 300]
@@ -113,7 +111,7 @@ class ExportMap(v.Menu, sw.SepalWidget):
     def _apply(self, widget, event, data):
         """download the dataset using the given parameters"""
 
-        folder = Path(ee.data.getAssetRoots()[0]["id"])
+        folder = Path(f"projects/{ee.data._cloud_api_user_project}/assets/")
 
         # check if a dataset is existing
         if self.datasets == [] or self.geometry == None:

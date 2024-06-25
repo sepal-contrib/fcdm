@@ -1,9 +1,6 @@
 from functools import partial
 
 import ee
-
-ee.Initialize()
-
 from component import parameter as cp
 
 
