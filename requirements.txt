@@ -6,3 +6,4 @@ earthengine-api
 git+https://github.com/12rambau/sepal_ui.git@sepal_pre_release
 
 # Rebuild the environment
+
